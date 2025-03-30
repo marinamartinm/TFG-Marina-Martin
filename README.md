@@ -22,5 +22,5 @@ Este Trabajo de Fin de Grado (TFG) se centra en la predicción y clasificación 
 - Optimización de hiperparámetros (GridSearchCV)
 
 # Autores y Reconocimientos
-Proyecto desarrollado por **Marina MArtín Marijuán** bajo la supervisión de **Telmo**
+Proyecto desarrollado por **Marina Martín Marijuán** bajo la supervisión de **Telmo Miguel Medina**
 Universidad de Burgos, Ingeniería de la Salud (2024/2025)
