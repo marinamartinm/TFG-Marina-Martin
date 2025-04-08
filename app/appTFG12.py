@@ -81,6 +81,6 @@ if enviar:
         pred_probs = model.predict_proba(df_input)[0]
         etiquetas = model.classes_ if hasattr(model, 'classes_') else ["Insomnio", "Ninguno", "Apnea del sueño"]
 
-        st.subheader("🔮 Resultado de la predicción")
+        st.subheader("Resultado de la predicción")
         for etiqueta, prob in zip(etiquetas, pred_probs):
             st.markdown(f"**{etiqueta}**: {prob*100:.1f}%")

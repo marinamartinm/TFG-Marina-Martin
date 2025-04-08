@@ -17,7 +17,7 @@ st.title("📊 Análisis de Apnea del Sueño")
 @st.cache_resource
 def load_model():
     try:
-        model = joblib.load("random_forest_model.joblib")
+        model = joblib.load("modelo_random_forest_balanceado_calibrado.pkl")
         if hasattr(model, "feature_names_in_"):
             st.sidebar.write("Variables esperadas por el modelo:")
             st.sidebar.write(list(model.feature_names_in_))
@@ -124,7 +124,7 @@ if st.button("🔄 Realizar predicción", type="primary"):
                 prediction = model.predict(processed_df)
                 prediction_proba = model.predict_proba(processed_df)[0]
 
-                st.subheader("🔮 Resultado de la predicción")
+                st.subheader("Resultado de la predicción")
                 classes = model.classes_ if hasattr(model, "classes_") else ["Clase 0", "Clase 1", "Clase 2"]
                 results = dict(zip(classes, prediction_proba))
                 for label, prob in results.items():
