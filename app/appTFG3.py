@@ -39,7 +39,7 @@ qr_img = generar_qr(app_url)
 
 # Mostrar en la barra lateral
 st.sidebar.subheader("📱 Acceso desde el móvil")
-st.sidebar.image(qr_img, caption="Escanea el QR para acceder", use_column_width=True)
+st.sidebar.image(qr_img, caption="Escanea el QR para acceder", use_container_width=True)
 st.sidebar.write(f"O copia y pega este enlace: [Haz clic aquí]({app_url})")
 st.sidebar.markdown("---")
 
@@ -51,17 +51,16 @@ st.title("📊 Análisis de Apnea del Sueño")
 # from sklearn.base import _get_param_names
 
 try:
-    # Opción 1: Carga directa con entorno consistente
     model = joblib.load('modelo_random_forest_balanceado_calibrado.pkl')
-    
-    # Opción 2: Si falla, usa esta alternativa
-    with open('modelo_random_forest_balanceado_calibrado.pkl', 'rb') as f:
-        model = joblib.load(f)
-    
     st.success("✅ Modelo cargado correctamente")
 except Exception as e:
     st.error(f"❌ Error al cargar el modelo: {e}")
-    st.stop()  # Detiene la ejecución si falla
+    st.stop()
+
+# Verificación adicional (opcional, si lo necesitas)
+if not hasattr(model, 'predict'):
+    st.error("❌ El modelo cargado no es válido.")
+    st.stop()
 
 if hasattr(model, 'feature_importances_'):
     st.write("Tipo de modelo:", type(model))
@@ -164,7 +163,7 @@ if submitted and model is not None:
         prediction = model.predict(df)
         prediction_proba = model.predict_proba(df)[0]
 
-        st.subheader("🔮 Resultado de la predicción")
+        st.subheader("Resultado de la predicción")
         colA, colB, colC = st.columns(3)
         clases = model.classes_
         for i, col in zip(range(len(clases)), [colA, colB, colC]):
@@ -182,7 +181,7 @@ import matplotlib.pyplot as plt
 st.header("🔍 Explicación del modelo (SHAP)")
 
 # Solo para modelos tree-based (como Random Forest)
-explainer = shap.KernelExplainer(model.predict_proba, df)
+explainer = shap.TreeExplainer(model)
 shap_values = explainer.shap_values(df)
 
 # Mostrar gráfico resumen de importancia de variables
@@ -191,12 +190,16 @@ fig_summary, ax_summary = plt.subplots()
 shap.summary_plot(shap_values, df, plot_type="bar", show=False)
 st.pyplot(fig_summary)
 
+
 # Mostrar gráfica de explicación individual
 st.subheader("🔎 Explicación individual de la predicción")
-fig_force = shap.plots._force.force_plot(explainer.expected_value[np.argmax(prediction_proba)],
-                                          shap_values[np.argmax(prediction_proba)][0,:],
-                                          df.iloc[0], matplotlib=True, show=False)
-shap.save_html("force_plot.html", fig_force)
-st.components.v1.html(open("force_plot.html").read(), height=300)
+force_plot_html = shap.force_plot(
+    explainer.expected_value[np.argmax(prediction_proba)],
+    shap_values[np.argmax(prediction_proba)][0, :],
+    df.iloc[0],
+    matplotlib=False
+)
+st.components.v1.html(force_plot_html, height=300)
+.read(), height=300)
 
 # Nota: SHAP puede ser pesado para Streamlit, se recomienda probar primero localmente
