@@ -32,7 +32,7 @@ def generar_qr(url):
     return img_bytes.getvalue()
 
 # URL de la aplicación ACTUALIZAR CUANDO ESTE SUBIDA
-app_url = "http://192.168.1.133:8501"
+app_url = "https://predictor-trastornos-sueno.streamlit.app"
 
 # Generar imagen QR
 qr_img = generar_qr(app_url)
@@ -52,7 +52,7 @@ from sklearn.base import _get_param_names
 
 try:
     # Opción 1: Carga directa con entorno consistente
-    model = joblib.load('modelo.pkl')
+    model = joblib.load('modelo_random_forest_balanceado_calibrado.pkl')
     
     # Opción 2: Si falla, usa esta alternativa
     with open('modelo.pkl', 'rb') as f:
@@ -182,7 +182,7 @@ import matplotlib.pyplot as plt
 st.header("🔍 Explicación del modelo (SHAP)")
 
 # Solo para modelos tree-based (como Random Forest)
-explainer = shap.TreeExplainer(model)
+explainer = shap.KernelExplainer(model.predict_proba, df)
 shap_values = explainer.shap_values(df)
 
 # Mostrar gráfico resumen de importancia de variables
