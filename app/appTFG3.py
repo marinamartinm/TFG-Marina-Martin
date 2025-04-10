@@ -200,6 +200,5 @@ force_plot_html = shap.force_plot(
     matplotlib=False
 )
 st.components.v1.html(force_plot_html, height=300)
-.read(), height=300)
 
 # Nota: SHAP puede ser pesado para Streamlit, se recomienda probar primero localmente
