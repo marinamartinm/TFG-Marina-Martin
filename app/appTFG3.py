@@ -191,12 +191,18 @@ try:
 
     # Mostrar gráfica de explicación individual
     st.subheader("🔎 Explicación individual de la predicción")
+    # Selección de la clase predicha
+    pred_clase = np.argmax(prediction_proba)
+
+    # SHAP espera vectores tipo NumPy, y no Series
+    instance_values = df.iloc[0].values  # Convertimos a array
     force_plot_html = shap.force_plot(
-        explainer.expected_value[np.argmax(prediction_proba)],
-        shap_values[np.argmax(prediction_proba)][0, :],
-        df.iloc[0],
+        explainer.expected_value[pred_clase],
+        shap_values[pred_clase][0],
+        instance_values,
         matplotlib=False
     )
+
     st.components.v1.html(force_plot_html, height=300)
 
 except Exception as e:
