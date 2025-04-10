@@ -48,15 +48,26 @@ st.title("📊 Análisis de Apnea del Sueño")
 
 # --- Cargar el modelo ---
 @st.cache_resource
-def load_model():
-    try:
-        model = joblib.load('modelo_random_forest_balanceado_calibrado.pkl')
-        return model
-    except Exception as e:
-        st.error(f"Error al cargar el modelo: {e}")
-        return None
+from sklearn.base import _get_param_names
 
-model = load_model()
+try:
+    # Opción 1: Carga directa con entorno consistente
+    model = joblib.load('modelo.pkl')
+    
+    # Opción 2: Si falla, usa esta alternativa
+    with open('modelo.pkl', 'rb') as f:
+        model = joblib.load(f)
+    
+    st.success("✅ Modelo cargado correctamente")
+except Exception as e:
+    st.error(f"❌ Error al cargar el modelo: {e}")
+    st.stop()  # Detiene la ejecución si falla
+
+if hasattr(model, 'feature_importances_'):
+    st.write("Tipo de modelo:", type(model))
+    st.write("Características del modelo:", dir(model))
+else:
+    st.error("El modelo no se cargó correctamente")
 
 # --- Entrada de datos del paciente ---
 st.header("📝 Datos del paciente")
