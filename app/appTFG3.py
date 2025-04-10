@@ -55,7 +55,7 @@ try:
     model = joblib.load('modelo_random_forest_balanceado_calibrado.pkl')
     
     # Opción 2: Si falla, usa esta alternativa
-    with open('modelo.pkl', 'rb') as f:
+    with open('odelo_random_forest_balanceado_calibrado.pkl', 'rb') as f:
         model = joblib.load(f)
     
     st.success("✅ Modelo cargado correctamente")
