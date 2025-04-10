@@ -62,11 +62,6 @@ if not hasattr(model, 'predict'):
     st.error("❌ El modelo cargado no es válido.")
     st.stop()
 
-if hasattr(model, 'feature_importances_'):
-    st.write("Tipo de modelo:", type(model))
-    st.write("Características del modelo:", dir(model))
-else:
-    st.error("El modelo no se cargó correctamente")
 
 # --- Entrada de datos del paciente ---
 st.header("📝 Datos del paciente")
