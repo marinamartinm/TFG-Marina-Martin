@@ -47,8 +47,8 @@ st.sidebar.markdown("---")
 st.title("📊 Análisis de Apnea del Sueño")
 
 # --- Cargar el modelo ---
-@st.cache_resource
-from sklearn.base import _get_param_names
+# @st.cache_resource
+# from sklearn.base import _get_param_names
 
 try:
     # Opción 1: Carga directa con entorno consistente
