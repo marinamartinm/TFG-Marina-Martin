@@ -174,31 +174,35 @@ if submitted and model is not None:
 
     except Exception as e:
         st.error(f"Error en el procesamiento: {e}")
+
+
 import shap
 import matplotlib.pyplot as plt
 
 # Explicabilidad del modelo con SHAP
 st.header("🔍 Explicación del modelo (SHAP)")
 
-# Solo para modelos tree-based (como Random Forest)
-explainer = shap.TreeExplainer(model)
-shap_values = explainer.shap_values(df)
-
-# Mostrar gráfico resumen de importancia de variables
-st.subheader("📌 Importancia global de las variables")
-fig_summary, ax_summary = plt.subplots()
-shap.summary_plot(shap_values, df, plot_type="bar", show=False)
-st.pyplot(fig_summary)
+try:
+    # SHAP para cualquier modelo (aunque sea calibrado)
+    explainer = shap.KernelExplainer(model.predict_proba, shap.sample(df, 100))
+    shap_values = explainer.shap_values(df)
 
 
-# Mostrar gráfica de explicación individual
-st.subheader("🔎 Explicación individual de la predicción")
-force_plot_html = shap.force_plot(
-    explainer.expected_value[np.argmax(prediction_proba)],
-    shap_values[np.argmax(prediction_proba)][0, :],
-    df.iloc[0],
-    matplotlib=False
-)
-st.components.v1.html(force_plot_html, height=300)
+    # Mostrar gráfico resumen de importancia de variables
+    st.subheader("📌 Importancia global de las variables")
+    fig_summary, ax_summary = plt.subplots()
+    shap.summary_plot(shap_values, df, plot_type="bar", show=False)
+    st.pyplot(fig_summary)
 
-# Nota: SHAP puede ser pesado para Streamlit, se recomienda probar primero localmente
+    # Mostrar gráfica de explicación individual
+    st.subheader("🔎 Explicación individual de la predicción")
+    force_plot_html = shap.force_plot(
+        explainer.expected_value[np.argmax(prediction_proba)],
+        shap_values[np.argmax(prediction_proba)][0, :],
+        df.iloc[0],
+        matplotlib=False
+    )
+    st.components.v1.html(force_plot_html, height=300)
+
+except Exception as e:
+    st.error(f"⚠️ Error al generar la explicación SHAP: {e}")
