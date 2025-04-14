@@ -1,3 +1,7 @@
+#=================================
+#   1. CONFIGURACIÓN GENERAL
+#=================================
+
 import streamlit as st
 import pandas as pd
 import joblib
@@ -5,18 +9,31 @@ import numpy as np
 import qrcode
 import streamlit as st
 import io
+from fpdf import FPDF 
+from datetime import datetime
+import base64
 
 
 # --- Configuración de la página ---
 st.set_page_config(
-    page_title="Análisis de Apnea del Sueño", 
+    page_title="Predicción de Trastornos del Sueño", 
     layout="wide", 
-    page_icon="😴",
     initial_sidebar_state="expanded"
 )
 
+st.markdown("# 💤 Predicción de Trastornos del Sueño")
+st.markdown("""
+Bienvenido a esta herramienta interactiva desarrollada como parte del Trabajo de Fin de Grado en Ingeniería de la Salud.
 
-# Función para generar código QR
+Esta aplicación permite predecir la probabilidad de padecer **insomnio**, **apnea del sueño** o no presentar trastornos, a partir de información clínica, personal y de hábitos de vida.
+
+Introduce tus datos en el panel lateral izquierdo y pulsa el botón para obtener el resultado.
+""")
+st.markdown("---")
+
+#============================
+#    2. CÓDIGO QR
+#============================
 def generar_qr(url):
     qr = qrcode.QRCode(
         version=1,
@@ -46,9 +63,9 @@ st.sidebar.markdown("---")
 
 st.title("📊 Análisis de Apnea del Sueño")
 
-# --- Cargar el modelo ---
-# @st.cache_resource
-# from sklearn.base import _get_param_names
+#=========================================
+#     3. CARGA DEL MODELO
+#=========================================
 
 try:
     model = joblib.load('modelo_random_forest_balanceado_calibrado.pkl')
@@ -63,7 +80,10 @@ if not hasattr(model, 'predict'):
     st.stop()
 
 
-# --- Entrada de datos del paciente ---
+#============================================
+#      4. ENTRADA DE DATOS
+#===========================================
+
 st.header("📝 Datos del paciente")
 
 with st.form("input_form"):
@@ -92,7 +112,9 @@ with st.form("input_form"):
 
     submitted = st.form_submit_button("🔄 Realizar predicción")
 
-# --- Procesamiento y predicción ---
+#=============================================================
+#      5. PROCESAMIENTO Y PREDICCIÓN
+#=============================================================
 if submitted and model is not None:
     try:
         # Calcular IMC
@@ -124,7 +146,7 @@ if submitted and model is not None:
 
         # Mapeos generales
         bmi_mapping = {"Underweight": 0, "Normal": 1, "Overweight": 2, "Obese": 3}
-        polysomnography_mapping = {"Sí": 1, "No": 0}
+        #polysomnography_mapping = {"Sí": 1, "No": 0}
 
         processed_data = {
             'Age': float(age),
@@ -174,28 +196,81 @@ if submitted and model is not None:
 import shap
 import matplotlib.pyplot as plt
 
-# Explicabilidad del modelo con SHAP
-st.header("🔍 Explicación del modelo (SHAP)")
-
-# Solo para modelos tree-based (como Random Forest)
-explainer = shap.TreeExplainer(model)
+# =============================
+#    6. EXPLICABILIDAD SHAP
+# =============================
+base_model = model.calibrated_classifiers_[0].estimator
+explainer = shap.TreeExplainer(base_model)
 shap_values = explainer.shap_values(df)
 
-# Mostrar gráfico resumen de importancia de variables
 st.subheader("📌 Importancia global de las variables")
-fig_summary, ax_summary = plt.subplots()
+fig, ax = plt.subplots()
 shap.summary_plot(shap_values, df, plot_type="bar", show=False)
-st.pyplot(fig_summary)
+st.pyplot(fig)
 
-
-# Mostrar gráfica de explicación individual
 st.subheader("🔎 Explicación individual de la predicción")
-force_plot_html = shap.force_plot(
-    explainer.expected_value[np.argmax(prediction_proba)],
-    shap_values[np.argmax(prediction_proba)][0, :],
-    df.iloc[0],
-    matplotlib=False
-)
-st.components.v1.html(force_plot_html, height=300)
+if len(df) > 1:
+    index_to_explain = st.slider("Selecciona el índice del paciente a explicar:", 0, len(df)-1, 0)
+else:
+    index_to_explain = 0
+instance = df.iloc[[index_to_explain]]
+shap_values_instance = explainer.shap_values(instance)
+shap.force_plot(explainer.expected_value[0], shap_values_instance[0], instance, matplotlib=True, show=False)
+fig = plt.gcf()
+st.pyplot(fig)
 
-# Nota: SHAP puede ser pesado para Streamlit, se recomienda probar primero localmente
+#==================================
+# 7. GENERACIÓN DE INFORME PDF
+#==================================
+# Función para generar el PDF
+def generar_pdf(datos_usuario, prediccion_clase, probas):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+
+    pdf.cell(200, 10, txt="Informe de predicción de trastornos del sueño", ln=True, align="C")
+    pdf.cell(200, 10, txt=f"Fecha: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}", ln=True, align="L")
+    pdf.ln(10)
+
+    pdf.set_font("Arial", 'B', size=12)
+    pdf.cell(200, 10, txt="Datos introducidos:", ln=True)
+    pdf.set_font("Arial", size=11)
+    for col, val in datos_usuario.items():
+        pdf.cell(200, 8, txt=f"{col}: {val}", ln=True)
+
+    pdf.ln(10)
+    pdf.set_font("Arial", 'B', size=12)
+    pdf.cell(200, 10, txt="Predicción del modelo:", ln=True)
+    pdf.set_font("Arial", size=11)
+    pdf.cell(200, 8, txt=f"Clase predicha: {prediccion_clase}", ln=True)
+
+    pdf.ln(5)
+    pdf.set_font("Arial", 'B', size=12)
+    pdf.cell(200, 10, txt="Probabilidades por clase:", ln=True)
+    pdf.set_font("Arial", size=11)
+    for i, p in enumerate(probas):
+        pdf.cell(200, 8, txt=f"Clase {i}: {round(p*100, 2)}%", ln=True)
+
+    return pdf
+
+# Función para generar el enlace de descarga
+def convertir_pdf_a_link(pdf):
+    pdf.output("informe_prediccion.pdf")
+    with open("informe_prediccion.pdf", "rb") as f:
+        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+    href = f'<a href="data:application/octet-stream;base64,{base64_pdf}" download="informe_prediccion.pdf">📄 Descargar informe en PDF</a>'
+    return href
+
+datos_dict = df.iloc[0].to_dict()
+predicted_class = model.predict(df)[0]
+probas = model.predict_proba(df)
+
+# Asegurar que sea una lista de probabilidades
+if hasattr(probas, "__getitem__") and len(probas.shape) == 2:
+    probas = probas[0].tolist()
+else:
+    probas = [float(probas)]  # en caso de que venga un único valor
+
+
+pdf = generar_pdf(datos_dict, predicted_class, probas)
+st.markdown(convertir_pdf_a_link(pdf), unsafe_allow_html=True)
