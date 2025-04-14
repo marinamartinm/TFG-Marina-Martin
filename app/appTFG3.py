@@ -17,6 +17,7 @@ import base64
 # --- Configuración de la página ---
 st.set_page_config(
     page_title="Predicción de Trastornos del Sueño", 
+    page_icon="logoApp.png",
     layout="wide", 
     initial_sidebar_state="expanded"
 )
