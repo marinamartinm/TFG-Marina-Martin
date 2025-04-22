@@ -50,7 +50,7 @@ def generar_qr(url):
     return img_bytes.getvalue()
 
 # URL de la aplicación ACTUALIZAR CUANDO ESTE SUBIDA
-app_url = "https://predictor-trastornos-sueno.streamlit.app"
+app_url = "https://tfg-marina-martin.streamlit.app/"
 
 # Generar imagen QR
 qr_img = generar_qr(app_url)
