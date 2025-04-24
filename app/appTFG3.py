@@ -12,6 +12,8 @@ import io
 from fpdf import FPDF 
 from datetime import datetime
 import base64
+import os
+import matplotlib.pyplot as plt
 
 
 # --- Configuración de la página ---
@@ -224,33 +226,62 @@ st.pyplot(fig)
 # 7. GENERACIÓN DE INFORME PDF
 #==================================
 # Función para generar el PDF
-def generar_pdf(datos_usuario, prediccion_clase, probas):
+def generar_pdf(datos_usuario, prediccion_clase, probas, clases, qr_img_bytes):
+    # Crear gráfico de barras de probabilidades
+    fig, ax = plt.subplots(figsize=(5, 2))
+    bars = ax.bar(clases, [p*100 for p in probas], color=["#ff4b4b" if clase == prediccion_clase else "#1f77b4" for clase in clases])
+    ax.set_ylabel("Probabilidad (%)")
+    ax.set_title("Distribución de predicción")
+    plt.tight_layout()
+    plot_path = "temp_plot.png"
+    fig.savefig(plot_path)
+    plt.close(fig)
+
+    # Crear PDF
     pdf = FPDF()
     pdf.add_page()
-    pdf.set_font("Arial", size=12)
+    pdf.set_font("Arial", "B", 14)
+    pdf.cell(200, 10, "INFORME DE PREDICCIÓN DE TRASTORNOS DEL SUEÑO", ln=True, align="C")
 
-    pdf.cell(200, 10, txt="Informe de predicción de trastornos del sueño", ln=True, align="C")
-    pdf.cell(200, 10, txt=f"Fecha: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}", ln=True, align="L")
-    pdf.ln(10)
-
-    pdf.set_font("Arial", 'B', size=12)
-    pdf.cell(200, 10, txt="Datos introducidos:", ln=True)
-    pdf.set_font("Arial", size=11)
-    for col, val in datos_usuario.items():
-        pdf.cell(200, 8, txt=f"{col}: {val}", ln=True)
-
-    pdf.ln(10)
-    pdf.set_font("Arial", 'B', size=12)
-    pdf.cell(200, 10, txt="Predicción del modelo:", ln=True)
-    pdf.set_font("Arial", size=11)
-    pdf.cell(200, 8, txt=f"Clase predicha: {prediccion_clase}", ln=True)
-
+    pdf.set_font("Arial", "", 11)
+    pdf.cell(200, 10, f"Fecha y hora: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}", ln=True)
     pdf.ln(5)
-    pdf.set_font("Arial", 'B', size=12)
-    pdf.cell(200, 10, txt="Probabilidades por clase:", ln=True)
-    pdf.set_font("Arial", size=11)
-    for i, p in enumerate(probas):
-        pdf.cell(200, 8, txt=f"Clase {i}: {round(p*100, 2)}%", ln=True)
+
+    pdf.set_font("Arial", "B", 12)
+    pdf.cell(200, 10, "📋 Datos del paciente", ln=True)
+    pdf.set_font("Arial", "", 11)
+    for k, v in datos_usuario.items():
+        pdf.cell(200, 8, f"- {k}: {v}", ln=True)
+    pdf.ln(5)
+
+    pdf.set_font("Arial", "B", 12)
+    pdf.cell(200, 10, "🧠 Resultado de la predicción", ln=True)
+    pdf.set_font("Arial", "", 11)
+    pdf.set_text_color(220, 50, 50)
+    pdf.cell(200, 8, f"→ Trastorno predicho: {prediccion_clase}", ln=True)
+    pdf.set_text_color(0, 0, 0)
+    pdf.ln(3)
+
+    pdf.set_font("Arial", "B", 12)
+    pdf.cell(200, 10, "📊 Probabilidades por clase", ln=True)
+    pdf.set_font("Arial", "", 11)
+    for clase, p in zip(clases, probas):
+        pdf.cell(200, 8, f"- {clase}: {p*100:.2f}%", ln=True)
+    pdf.ln(5)
+
+    pdf.image(plot_path, x=40, w=130)
+    os.remove(plot_path)
+
+    # Incluir QR
+    if qr_img_bytes:
+        temp_qr_path = "temp_qr.png"
+        with open(temp_qr_path, "wb") as f:
+            f.write(qr_img_bytes)
+        pdf.ln(10)
+        pdf.set_font("Arial", "B", 12)
+        pdf.cell(200, 10, "🔗 Escanea el QR para volver a la aplicación:", ln=True)
+        pdf.image(temp_qr_path, x=80, w=50)
+        os.remove(temp_qr_path)
 
     return pdf
 
@@ -273,5 +304,6 @@ else:
     probas = [float(probas)]  # en caso de que venga un único valor
 
 
-pdf = generar_pdf(datos_dict, predicted_class, probas)
+#pdf = generar_pdf(datos_dict, predicted_class, probas)
+pdf = generar_pdf(datos_dict, predicted_class, probas, list(model.classes_), qr_img)
 st.markdown(convertir_pdf_a_link(pdf), unsafe_allow_html=True)
