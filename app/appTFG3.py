@@ -248,14 +248,14 @@ def generar_pdf(datos_usuario, prediccion_clase, probas, clases, qr_img_bytes):
     pdf.ln(5)
 
     pdf.set_font("Arial", "B", 12)
-    pdf.cell(200, 10, "📋 Datos del paciente", ln=True)
+    pdf.cell(200, 10, "[Datos del paciente]", ln=True)
     pdf.set_font("Arial", "", 11)
     for k, v in datos_usuario.items():
         pdf.cell(200, 8, f"- {k}: {v}", ln=True)
     pdf.ln(5)
 
     pdf.set_font("Arial", "B", 12)
-    pdf.cell(200, 10, "🧠 Resultado de la predicción", ln=True)
+    pdf.cell(200, 10, "[Resultado de la predicción]", ln=True)
     pdf.set_font("Arial", "", 11)
     pdf.set_text_color(220, 50, 50)
     pdf.cell(200, 8, f"→ Trastorno predicho: {prediccion_clase}", ln=True)
@@ -263,7 +263,7 @@ def generar_pdf(datos_usuario, prediccion_clase, probas, clases, qr_img_bytes):
     pdf.ln(3)
 
     pdf.set_font("Arial", "B", 12)
-    pdf.cell(200, 10, "📊 Probabilidades por clase", ln=True)
+    pdf.cell(200, 10, "[Probabilidades por clase]", ln=True)
     pdf.set_font("Arial", "", 11)
     for clase, p in zip(clases, probas):
         pdf.cell(200, 8, f"- {clase}: {p*100:.2f}%", ln=True)
@@ -279,7 +279,7 @@ def generar_pdf(datos_usuario, prediccion_clase, probas, clases, qr_img_bytes):
             f.write(qr_img_bytes)
         pdf.ln(10)
         pdf.set_font("Arial", "B", 12)
-        pdf.cell(200, 10, "🔗 Escanea el QR para volver a la aplicación:", ln=True)
+        pdf.cell(200, 10, "[Escanea el QR para volver a la aplicación:]", ln=True)
         pdf.image(temp_qr_path, x=80, w=50)
         os.remove(temp_qr_path)
 
