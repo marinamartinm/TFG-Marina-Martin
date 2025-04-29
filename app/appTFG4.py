@@ -7,7 +7,6 @@ import io
 from fpdf import FPDF
 from datetime import datetime
 import os
-import base64
 import matplotlib.pyplot as plt
 import shap
 
@@ -16,13 +15,13 @@ import shap
 # ===========================================
 
 st.set_page_config(
-    page_title="Predicción de Trastornos del Sueño",
+    page_title="Predicción de Trastornos del Sueño (Sin SMOTE)",
     page_icon="logoApp.png",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-st.markdown("# 💤 Predicción de Trastornos del Sueño")
+st.markdown("# 💤 Predicción de Trastornos del Sueño (Modelo: Logistic Regression sin SMOTE)")
 st.markdown("""
 Introduce tus datos clínicos y de estilo de vida en el panel izquierdo.
 Pulsa el botón para generar un informe detallado.
@@ -46,19 +45,12 @@ st.sidebar.image(qr_bytes, caption="Escanea el QR", use_container_width=True)
 st.sidebar.markdown(f"[Haz clic aquí para acceder]({url_app})")
 st.sidebar.markdown("---")
 
-# ===== CARGA DEL MODELO Y SCALER =====
+# ===== CARGA DEL MODELO =====
 try:
-    model = joblib.load("modelo_rf_seleccionado.pkl")
-    st.success("✅ Modelo cargado correctamente")
+    model = joblib.load("modelo_logistic_kbest.pkl")
+    st.success("✅ Modelo Logistic Regression sin SMOTE cargado correctamente")
 except Exception as e:
     st.error(f"❌ Error al cargar el modelo: {e}")
-    st.stop()
-
-try:
-    scaler, scaler_columns = joblib.load("scaler.pkl")
-    st.success("✅ Scaler y columnas cargados correctamente")
-except Exception as e:
-    st.error(f"❌ Error al cargar el scaler: {e}")
     st.stop()
 
 if not hasattr(model, 'predict'):
@@ -146,7 +138,6 @@ with st.form("formulario"):
 
 if submit:
     try:
-        # ===== 1. Cálculo de variables
         imc = weight / (height / 100)**2
         imc_cat = "Underweight" if imc < 18.5 else "Normal" if imc < 25 else "Overweight" if imc < 30 else "Obese"
         deporte_pct = [0, 20, 40, 70, 80, 90, 95, 100][sport_days]
@@ -155,7 +146,6 @@ if submit:
         sys, dia = map(int, bp.split("/"))
         bmi_map = {"Underweight": 0, "Normal": 1, "Overweight": 2, "Obese": 3}
 
-        # ===== 2. Crear DataFrame de entrada
         data = {
             "Age": float(age),
             "Sleep Duration": float(sleep_duration),
@@ -175,57 +165,40 @@ if submit:
 
         df = pd.DataFrame([data])
 
-        # ===== 3. Asegurar que df tiene TODAS las columnas que el modelo espera
         for col in model.feature_names_in_:
             if col not in df.columns:
                 df[col] = 0.0
 
-        # Ordenar columnas como espera el modelo
         df_final = df[model.feature_names_in_]
 
-        # ===== 4. Predicción
         prediction = model.predict(df_final)[0]
         prediction_proba = model.predict_proba(df_final)[0]
         clases = model.classes_
 
-        # ===== 5. Mostrar resultados
         st.header("📊 Resultado de la predicción")
         colA, colB, colC = st.columns(3)
         for i, col in enumerate([colA, colB, colC]):
             col.metric(clases[i], f"{prediction_proba[i] * 100:.1f}%", delta=None)
 
-        # ===== 6. PDF
+        # PDF
         pdf_path = generar_informe_estetico(df.iloc[0].to_dict(), prediction, prediction_proba, clases)
         with open(pdf_path, "rb") as f:
             st.download_button("📥 Descargar informe PDF", f, file_name="informe_sueno.pdf")
 
-        # ===== 7. SHAP GLOBAL (corregido para Pipeline + Random Forest)
-
+        # SHAP
         st.subheader("📌 Importancia global de las variables")
-
-        # Accedemos al modelo real (Random Forest) dentro del pipeline
-        modelo_final = model.named_steps['clf']
-
-        # Accedemos a qué columnas han sido seleccionadas
-        variables_seleccionadas_idx = model.named_steps['select'].get_support(indices=True)
-        df_final_seleccionado = df_final.iloc[:, variables_seleccionadas_idx]
-
-        # TreeExplainer para Random Forest
-        explainer = shap.TreeExplainer(modelo_final)
-        shap_values = explainer.shap_values(df_final_seleccionado)
-
+        explainer = shap.KernelExplainer(model.predict_proba, df_final)
+        shap_values = explainer.shap_values(df_final)
         fig, ax = plt.subplots()
-        shap.summary_plot(shap_values, df_final_seleccionado, plot_type="bar", show=False)
+        shap.summary_plot(shap_values, df_final, plot_type="bar", show=False)
         st.pyplot(fig)
 
-        # ===== 8. SHAP INDIVIDUAL (corregido también)
-
+        # SHAP Individual
         st.subheader("🔍 Explicación individual")
-        instance = df_final_seleccionado.iloc[0:1]
+        instance = df_final.iloc[0:1]
         shap_values_instance = explainer.shap_values(instance)
         shap.force_plot(explainer.expected_value[0], shap_values_instance[0], instance, matplotlib=True, show=False)
         st.pyplot(plt.gcf())
-
 
     except Exception as e:
         st.error(f"❌ Error durante la predicción: {e}")
