@@ -47,7 +47,7 @@ st.sidebar.markdown("---")
 
 # ===== CARGA DEL MODELO =====
 try:
-    model = joblib.load("modelo_logistic_kbest.pkl")
+    model = joblib.load("modelo_calibrado_rf.joblib")
     st.success("✅ Modelo Logistic Regression sin SMOTE cargado correctamente")
 except Exception as e:
     st.error(f"❌ Error al cargar el modelo: {e}")

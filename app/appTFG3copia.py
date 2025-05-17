@@ -12,11 +12,14 @@ import io
 from fpdf import FPDF 
 from datetime import datetime
 import base64
+import shap
+import matplotlib.pyplot as plt
 
 
 # --- Configuración de la página ---
 st.set_page_config(
     page_title="Predicción de Trastornos del Sueño", 
+    page_icon="logoApp.png",
     layout="wide", 
     initial_sidebar_state="expanded"
 )
@@ -27,7 +30,7 @@ Bienvenido a esta herramienta interactiva desarrollada como parte del Trabajo de
 
 Esta aplicación permite predecir la probabilidad de padecer **insomnio**, **apnea del sueño** o no presentar trastornos, a partir de información clínica, personal y de hábitos de vida.
 
-Introduce tus datos en el panel lateral izquierdo y pulsa el botón para obtener el resultado.
+Introduce tus datos a continuación y pulsa el botón para obtener el resultado.
 """)
 st.markdown("---")
 
@@ -142,7 +145,12 @@ if submitted and model is not None:
         stress_level = stress_map.get(stress_nivel, 5)
 
         # Separar presión arterial
-        systolic, diastolic = map(int, blood_pressure.split('/'))
+        try:
+            systolic, diastolic = map(int, blood_pressure.split('/'))
+        except Exception:
+            st.error("❌ Formato de presión arterial incorrecto. Usa el formato 120/80.")
+            st.stop()
+
 
         # Mapeos generales
         bmi_mapping = {"Underweight": 0, "Normal": 1, "Overweight": 2, "Obese": 3}
@@ -168,6 +176,7 @@ if submitted and model is not None:
             processed_data[f'Occupation_{occ}'] = 1.0 if occupation == occ else 0.0
 
         df = pd.DataFrame([processed_data])
+        datos_usuario = processed_data
 
         # Adaptar columnas al modelo
         if hasattr(model, 'feature_names_in_'):
@@ -179,98 +188,120 @@ if submitted and model is not None:
 
         prediction = model.predict(df)
         prediction_proba = model.predict_proba(df)[0]
+        prediccion_clase = prediction[0]
 
+        # Mostrar resultados
         st.subheader("Resultado de la predicción")
         colA, colB, colC = st.columns(3)
         clases = model.classes_
         for i, col in zip(range(len(clases)), [colA, colB, colC]):
             clase = clases[i]
             porcentaje = prediction_proba[i] * 100
-            color = "#ff4b4b" if clase == prediction[0] else "#1f77b4"
+            color = "#ff4b4b" if clase == prediccion_clase else "#1f77b4"
             col.metric(clase, f"{porcentaje:.1f}%")
 
-    except Exception as e:
-        st.error(f"Error en el procesamiento: {e}")
+        # ✅ Generar y mostrar PDF
+        ruta_pdf = generar_informe_estetico(datos_usuario, prediccion_clase, prediction_proba, clases)
+        with open(ruta_pdf, "rb") as f:
+            st.download_button("📄 Descargar informe PDF", f, file_name="informe_prediccion.pdf")
 
-
-import shap
-import matplotlib.pyplot as plt
 
 # =============================
 #    6. EXPLICABILIDAD SHAP
 # =============================
-base_model = model.calibrated_classifiers_[0].estimator
-explainer = shap.TreeExplainer(base_model)
-shap_values = explainer.shap_values(df)
+if submitted and model is not None:
+    try:
+        base_model = model.calibrated_classifiers_[0].estimator
+        explainer = shap.TreeExplainer(base_model)
+        shap_values = explainer.shap_values(df)
 
-st.subheader("📌 Importancia global de las variables")
-fig, ax = plt.subplots()
-shap.summary_plot(shap_values, df, plot_type="bar", show=False)
-st.pyplot(fig)
+        st.subheader("📌 Importancia global de las variables")
+        fig, ax = plt.subplots()
+        shap.summary_plot(shap_values, df, plot_type="bar", show=False)
+        st.pyplot(fig)
 
-st.subheader("🔎 Explicación individual de la predicción")
-if len(df) > 1:
-    index_to_explain = st.slider("Selecciona el índice del paciente a explicar:", 0, len(df)-1, 0)
-else:
-    index_to_explain = 0
-instance = df.iloc[[index_to_explain]]
-shap_values_instance = explainer.shap_values(instance)
-shap.force_plot(explainer.expected_value[0], shap_values_instance[0], instance, matplotlib=True, show=False)
-fig = plt.gcf()
-st.pyplot(fig)
+        st.subheader("🔎 Explicación individual de la predicción")
+        if len(df) > 1:
+            index_to_explain = st.slider("Selecciona el índice del paciente a explicar:", 0, len(df)-1, 0)
+        else:
+            index_to_explain = 0
+        instance = df.iloc[[index_to_explain]]
+        shap_values_instance = explainer.shap_values(instance)
+        shap.force_plot(explainer.expected_value[0], shap_values_instance[0], instance, matplotlib=True, show=False)
+        fig = plt.gcf()
+        st.pyplot(fig)
+    except Exception as e:
+        st.error(f"❌ Error al generar explicación SHAP: {e}")
 
 #==================================
 # 7. GENERACIÓN DE INFORME PDF
 #==================================
-# Función para generar el PDF
-def generar_pdf(datos_usuario, prediccion_clase, probas):
-    pdf = FPDF()
+
+class InformeClinico(FPDF):
+    def header(self):
+        if os.path.exists("logoApp.png"):
+            self.image("logoApp.png", x=10, y=8, w=25)
+        self.set_font("Arial", "B", 14)
+        self.cell(0, 10, "INFORME CLÍNICO DE SUEÑO", ln=True, align="C")
+        self.set_font("Arial", "", 11)
+        self.cell(0, 10, f"Fecha: {datetime.now().strftime('%d/%m/%Y - %H:%M')}", ln=True, align="R")
+        self.ln(10)
+
+    def section_title(self, title):
+        self.set_font("Arial", "B", 12)
+        self.set_fill_color(200, 220, 255)
+        self.cell(0, 8, f" {title}", ln=True, fill=True)
+        self.ln(2)
+
+    def add_table(self, data: dict):
+        self.set_font("Arial", "", 11)
+        col_width = 50
+        for key, value in data.items():
+            self.cell(col_width, 8, key, border=1)
+            self.cell(0, 8, str(value), border=1, ln=True)
+        self.ln(3)
+
+    def add_prediction(self, clase, probas, clases):
+        self.set_font("Arial", "B", 11)
+        self.cell(0, 8, f"Trastorno detectado: {clase}", ln=True)
+        self.set_font("Arial", "", 11)
+        for c, p in zip(clases, probas):
+            self.cell(0, 8, f"{c}: {p*100:.1f}%", ln=True)
+
+        self.ln(3)
+        self.set_font("Arial", "I", 10)
+        self.multi_cell(0, 6, "Nota: Este informe ha sido generado automáticamente como parte de una herramienta de ayuda para la predicción de trastornos del sueño. No sustituye el diagnóstico clínico profesional.")
+
+def generar_informe_estetico(datos_usuario, prediccion_clase, probas, clases):
+    pdf = InformeClinico()
     pdf.add_page()
-    pdf.set_font("Arial", size=12)
 
-    pdf.cell(200, 10, txt="Informe de predicción de trastornos del sueño", ln=True, align="C")
-    pdf.cell(200, 10, txt=f"Fecha: {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}", ln=True, align="L")
-    pdf.ln(10)
+    pdf.section_title("DATOS PERSONALES")
+    sexo = "Masculino" if datos_usuario.get("Gender_Male", 0) == 1 else "Femenino"
+    ocupaciones = [k.replace("Occupation_", "") for k in datos_usuario if k.startswith("Occupation_") and datos_usuario[k] == 1]
+    ocupacion = ocupaciones[0] if ocupaciones else "No especificada"
+    datos_personales = {
+        "Edad": f"{datos_usuario.get('Age')} años",
+        "Sexo": sexo,
+        "Ocupación": ocupacion,
+        "IMC (categoría)": ["Bajo peso", "Normal", "Sobrepeso", "Obesidad"][int(datos_usuario.get("BMI Category", 1))],
+        "Frecuencia cardíaca": f"{datos_usuario.get('Heart Rate')} bpm",
+        "Presión arterial": f"{datos_usuario.get('Systolic BP')} / {datos_usuario.get('Diastolic BP')} mmHg"
+    }
+    pdf.add_table(datos_personales)
 
-    pdf.set_font("Arial", 'B', size=12)
-    pdf.cell(200, 10, txt="Datos introducidos:", ln=True)
-    pdf.set_font("Arial", size=11)
-    for col, val in datos_usuario.items():
-        pdf.cell(200, 8, txt=f"{col}: {val}", ln=True)
+    pdf.section_title("HÁBITOS DE VIDA")
+    datos_habitos = {
+        "Duración del sueño": f"{datos_usuario.get('Sleep Duration')} h",
+        "Calidad del sueño": f"{datos_usuario.get('Quality of Sleep')} / 10",
+        "Nivel de estrés (escala 1-9)": datos_usuario.get("Stress Level"),
+        "Pasos diarios": datos_usuario.get("Daily Steps")
+    }
+    pdf.add_table(datos_habitos)
 
-    pdf.ln(10)
-    pdf.set_font("Arial", 'B', size=12)
-    pdf.cell(200, 10, txt="Predicción del modelo:", ln=True)
-    pdf.set_font("Arial", size=11)
-    pdf.cell(200, 8, txt=f"Clase predicha: {prediccion_clase}", ln=True)
+    pdf.section_title("RESULTADOS DE LA PREDICCIÓN")
+    pdf.add_prediction(prediccion_clase, probas, clases)
 
-    pdf.ln(5)
-    pdf.set_font("Arial", 'B', size=12)
-    pdf.cell(200, 10, txt="Probabilidades por clase:", ln=True)
-    pdf.set_font("Arial", size=11)
-    for i, p in enumerate(probas):
-        pdf.cell(200, 8, txt=f"Clase {i}: {round(p*100, 2)}%", ln=True)
-
-    return pdf
-
-# Función para generar el enlace de descarga
-def convertir_pdf_a_link(pdf):
-    pdf.output("informe_prediccion.pdf")
-    with open("informe_prediccion.pdf", "rb") as f:
-        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
-    href = f'<a href="data:application/octet-stream;base64,{base64_pdf}" download="informe_prediccion.pdf">📄 Descargar informe en PDF</a>'
-    return href
-
-datos_dict = df.iloc[0].to_dict()
-predicted_class = model.predict(df)[0]
-probas = model.predict_proba(df)
-
-# Asegurar que sea una lista de probabilidades
-if hasattr(probas, "__getitem__") and len(probas.shape) == 2:
-    probas = probas[0].tolist()
-else:
-    probas = [float(probas)]  # en caso de que venga un único valor
-
-
-pdf = generar_pdf(datos_dict, predicted_class, probas)
-st.markdown(convertir_pdf_a_link(pdf), unsafe_allow_html=True)
+    ruta_pdf = "informe_prediccion_estetico.pdf"
+    pdf.output(ruta_pdf)
+    return ruta_pdf
