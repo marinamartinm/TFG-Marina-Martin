@@ -6,6 +6,9 @@ import streamlit as st
 import pandas as pd
 import joblib
 import numpy as np
+if not hasattr(np, 'bool'):
+    np.bool = bool
+
 import qrcode
 import io
 from fpdf import FPDF
