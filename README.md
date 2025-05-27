@@ -1,9 +1,12 @@
 # Análisis de la Calidad del Sueño (TFG)
 ## Alumna: Marina Martín Marijuán
 ## Grado en Ingeniería de la Salud, Universidad de Burgos. Curso 2024/2025
-La calidad del sueño es un factor fundamental para la salud y el bienestar general, ya que influye directamente en el rendimiento cognitivo, la salud física, el estado emocional y la calidad de vida. Un sueño adecuado contribuye a la recuperación física y mental, mientras que su deficiencia se ha asociado con problemas graves como enfermedades cardiovasculares, diabetes, trastornos del estado de ánimo y déficits de concentración o memoria. Se estima que entre el 20% y el 30% de la población mundial sufre de trastornos del sueño, como insomnio o apnea obstructiva, lo que representa un desafío importante para los sistemas de salud pública. 
 
-Este Trabajo de Fin de Grado (TFG) se centra en la predicción y clasificación de la calidad del sueño utilizando técnicas de machine learning. Se han evaluado diversos modelos para predecir trastornos del sueño basándose en características individuales y hábitos de vida. Además, se ha explorado el impacto de técnicas de balanceo de datos (SMOTE) y el uso de distintas estrategias de normalización en el rendimiento de los modelos.
+La calidad del sueño es un factor clave para la salud física y mental, y su deterioro se asocia con problemas como insomnio, apnea del sueño o fatiga crónica. A pesar de su relevancia, los mecanismos de cribado temprano y diagnóstico accesible siguen siendo limitados en muchos entornos clínicos o poblacionales.
+
+Este Trabajo de Fin de Grado plantea el desarrollo de un sistema predictivo que clasifica el tipo de trastorno del sueño en tres categorías (insomnio, apnea, ninguno), a partir de variables clínicas y de estilo de vida. La solución combina el uso de modelos de aprendizaje automático (Random Forest, MLP, SVM, entre otros) con técnicas de interpretabilidad como SHAP y una interfaz visual desarrollada en Streamlit.
+
+El objetivo es ofrecer una herramienta accesible, explicable y fácilmente desplegable para su uso en contextos clínicos, educativos o de investigación. La aplicación final permite introducir datos simulados o reales, obtener una predicción y visualizar un informe explicativo en formato PDF.
 
 # Tecnologías Utilizadas
 - **Python** – `pandas`, `numpy`, `scikit-learn`, `matplotlib`, `seaborn`, `shap`, `joblib`
