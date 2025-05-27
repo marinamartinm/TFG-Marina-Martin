@@ -14,9 +14,9 @@ El objetivo es ofrecer una herramienta accesible, explicable y fácilmente despl
 - **Balanceo de clases** – SMOTE.
 - **Evaluación de modelos** – Validación cruzada, matriz de confusión, curva ROC, métricas por clase.
 - **Optimización de hiperparámetros** – `GridSearchCV`, `RandomizedSearchCV`.
-- **Despliegue web** – Streamlit.
+- **Interfaz web** – Streamlit.
 - **Generación de informes PDF** – `fpdf2`, `qrcode`.
-- - Adquisición de datos: **O2 Insight Pro** (software propietario del dispositivo O₂Ring, Viatom).
+- Adquisición de datos - **O2 Insight Pro** (software propietario del dispositivo O₂Ring, Viatom).
 
 ## Estructura del Repositorio
 - Carpeta app: contiene el código de la aplicación en Streamlit.
