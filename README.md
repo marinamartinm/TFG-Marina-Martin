@@ -5,6 +5,15 @@ La calidad del sueño es un factor fundamental para la salud y el bienestar gene
 
 Este Trabajo de Fin de Grado (TFG) se centra en la predicción y clasificación de la calidad del sueño utilizando técnicas de machine learning. Se han evaluado diversos modelos para predecir trastornos del sueño basándose en características individuales y hábitos de vida. Además, se ha explorado el impacto de técnicas de balanceo de datos (SMOTE) y el uso de distintas estrategias de normalización en el rendimiento de los modelos.
 
+# Tecnologías Utilizadas
+- **Python** – `pandas`, `numpy`, `scikit-learn`, `matplotlib`, `seaborn`, `shap`, `joblib`
+- **Machine Learning** – Regresión logística, Árboles de decisión, Random Forest, SVM, MLP
+- **Balanceo de clases** – SMOTE
+- **Evaluación de modelos** – Validación cruzada, matriz de confusión, curva ROC, métricas por clase
+- **Optimización de hiperparámetros** – `GridSearchCV`, `RandomizedSearchCV`
+- **Despliegue web** – Streamlit
+- **Generación de informes PDF** – `fpdf2`, `qrcode`
+
 # Estructura del Repositorio
 - Carpeta app: contiene el código de la aplicación en Streamlit.
 - Carpeta artículos:
@@ -14,12 +23,30 @@ Este Trabajo de Fin de Grado (TFG) se centra en la predicción y clasificación 
 - Carpeta OverLeaf-LaTex: contiene los documentos y memoria en LaTex.
 - README.md: archivo de presentación del repositorio de GitHub y explicación del proyecto.
 
-# Tecnologías Utilizadas
-- Python (Pandas, NumPy, Scikit-Learn, Matplotlib, Seaborn)
-- Machine Learning (Regresión Logística, Árboles de Decisión, SVM, MLP, Random Forest)
-- Técnicas de balanceo (SMOTE)
-- Evaluación de modelos (Curva ROC, matriz de confusión, Precision-Recall)
-- Optimización de hiperparámetros (GridSearchCV)
+# Acceso a la aplicación web
+
+Puedes probar la aplicación directamente desde el siguiente enlace:
+
+🔗 [Aplicación Streamlit desplegada](https://tfg-marina-martin.streamlit.app)
+
+La aplicación permite:
+- Introducir datos clínicos simulados
+- Ejecutar la predicción
+- Visualizar una explicación mediante gráficos SHAP
+- Descargar un informe personalizado en PDF
+
+# Memoria del proyecto
+
+La memoria completa del TFG, junto con los anexos y resultados, está disponible en el repositorio en formato LaTeX dentro de `OverLeaf-LaTeX/`. Puede consultarse como documentación técnica y científica del sistema.
+
+# Autoría y agradecimientos
+
+Proyecto desarrollado por **Marina Martín Marijuán**, tutorizado por **Telmo Miguel Medina** en la **Universidad de Burgos** (Grado en Ingeniería de la Salud, curso 2024/2025).
+
+# Licencia
+
+Este proyecto se distribuye bajo licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+
 
 # Autores y Reconocimientos
 Proyecto desarrollado por **Marina Martín Marijuán** bajo la supervisión de **Telmo Miguel Medina**
