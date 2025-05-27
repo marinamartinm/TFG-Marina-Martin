@@ -9,13 +9,14 @@ Este Trabajo de Fin de Grado plantea el desarrollo de un sistema predictivo que 
 El objetivo es ofrecer una herramienta accesible, explicable y fácilmente desplegable para su uso en contextos clínicos, educativos o de investigación. La aplicación final permite introducir datos simulados o reales, obtener una predicción y visualizar un informe explicativo en formato PDF.
 
 ## Tecnologías Utilizadas
-- **Python** – `pandas`, `numpy`, `scikit-learn`, `matplotlib`, `seaborn`, `shap`, `joblib`
-- **Machine Learning** – Regresión logística, Árboles de decisión, Random Forest, SVM, MLP
-- **Balanceo de clases** – SMOTE
-- **Evaluación de modelos** – Validación cruzada, matriz de confusión, curva ROC, métricas por clase
-- **Optimización de hiperparámetros** – `GridSearchCV`, `RandomizedSearchCV`
-- **Despliegue web** – Streamlit
-- **Generación de informes PDF** – `fpdf2`, `qrcode`
+- **Python** – `pandas`, `numpy`, `scikit-learn`, `matplotlib`, `seaborn`, `shap`, `joblib`.
+- **Machine Learning** – Regresión logística, Árboles de decisión, Random Forest, SVM, MLP.
+- **Balanceo de clases** – SMOTE.
+- **Evaluación de modelos** – Validación cruzada, matriz de confusión, curva ROC, métricas por clase.
+- **Optimización de hiperparámetros** – `GridSearchCV`, `RandomizedSearchCV`.
+- **Despliegue web** – Streamlit.
+- **Generación de informes PDF** – `fpdf2`, `qrcode`.
+- - Adquisición de datos: **O2 Insight Pro** (software propietario del dispositivo O₂Ring, Viatom).
 
 ## Estructura del Repositorio
 - Carpeta app: contiene el código de la aplicación en Streamlit.
