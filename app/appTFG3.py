@@ -48,7 +48,7 @@ st.sidebar.markdown("---")
 
 # ===== CARGA DEL MODELO Y SCALER =====
 try:
-    model = joblib.load("modelo_calibrado_rf.joblib")
+    model = joblib.load("modelo_rf_seleccionado.pkl")
     st.success("✅ Modelo cargado correctamente")
 except Exception as e:
     st.error(f"❌ Error al cargar el modelo: {e}")
