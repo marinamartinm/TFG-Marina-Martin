@@ -67,7 +67,7 @@ st.title("📊 Análisis de Apnea del Sueño")
 #     3. CARGA DEL MODELO
 #=========================================
 try:
-    model = joblib.load('modelo_random_forest_balanceado_calibrado.pkl')
+    model = joblib.load('modelo_rf_seleccionado.pkl')
     st.success("✅ Modelo cargado correctamente")
 except Exception as e:
     st.error(f"❌ Error al cargar el modelo: {e}")
