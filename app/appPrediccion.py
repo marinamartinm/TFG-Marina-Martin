@@ -67,14 +67,14 @@ st.title("📊 Análisis de Apnea del Sueño")
 #     3. CARGA DEL MODELO
 #=========================================
 try:
-    model = joblib.load('modelo_rf_seleccionado.pkl')
-    st.success("✅ Modelo cargado correctamente")
+    model = joblib.load('random_forest_model.joblib')
+    st.success("Modelo cargado correctamente")
 except Exception as e:
-    st.error(f"❌ Error al cargar el modelo: {e}")
+    st.error(f"Error al cargar el modelo: {e}")
     st.stop()
 
 if not hasattr(model, 'predict'):
-    st.error("❌ El modelo cargado no es válido.")
+    st.error("El modelo cargado no es válido.")
     st.stop()
 
 #==================================
@@ -200,7 +200,7 @@ if submitted and model is not None:
         try:
             systolic, diastolic = map(int, blood_pressure.split('/'))
         except:
-            st.error("❌ Presión arterial inválida. Usa el formato 120/80.")
+            st.error("Presión arterial inválida. Usa el formato 120/80.")
             st.stop()
 
         bmi_mapping = {"Underweight": 0, "Normal": 1, "Overweight": 2, "Obese": 3}
@@ -253,7 +253,7 @@ if submitted and model is not None:
         explainer = shap.TreeExplainer(base_model)
         shap_values = explainer.shap_values(df)
 
-        st.subheader("📌 Importancia global de las variables")
+        st.subheader("Importancia global de las variables")
         fig, ax = plt.subplots()
         shap.summary_plot(shap_values, df, plot_type="bar", show=False)
         st.pyplot(fig)
@@ -266,4 +266,4 @@ if submitted and model is not None:
         st.pyplot(fig)
 
     except Exception as e:
-        st.error(f"❌ Error: {e}")
+        st.error(f"Error: {e}")
