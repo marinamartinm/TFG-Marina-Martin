@@ -67,7 +67,8 @@ st.title("📊 Análisis de Apnea del Sueño")
 #     3. CARGA DEL MODELO
 #=========================================
 try:
-    model = joblib.load('random_forest_model.joblib')
+    model_path = os.path.join(os.path.dirname(__file__), "random_forest_model.joblib")
+    model = joblib.load(model_path)
     st.success("Modelo cargado correctamente")
 except Exception as e:
     st.error(f"Error al cargar el modelo: {e}")
