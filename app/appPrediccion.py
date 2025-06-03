@@ -53,7 +53,7 @@ def generar_qr(url):
     qr_img.save(img_bytes, format="PNG")
     return img_bytes.getvalue()
 
-app_url = "https://tfg_marina-martin.streamlit.app"
+app_url = "https://tfg-marina.streamlit.app"
 qr_img = generar_qr(app_url)
 
 st.sidebar.subheader("📱 Acceso desde el móvil")
