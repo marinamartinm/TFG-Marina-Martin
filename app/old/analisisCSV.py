@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 st.set_page_config(page_title="Análisis O2Ring", layout="wide")
-st.title("📊 Análisis de datos del O2Ring")
+st.title("Análisis de datos del O2Ring")
 
 st.markdown("Sube un archivo CSV exportado desde el dispositivo O2Ring para visualizar y analizar los datos.")
 

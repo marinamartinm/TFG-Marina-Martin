@@ -258,7 +258,7 @@ if submitted and model is not None:
         shap.summary_plot(shap_values, df, plot_type="bar", show=False)
         st.pyplot(fig)
 
-        st.subheader("🔎 Explicación individual de la predicción")
+        st.subheader("Explicación individual de la predicción")
         instance = df.iloc[[0]]
         shap_values_instance = explainer.shap_values(instance)
         shap.force_plot(explainer.expected_value[0], shap_values_instance[0], instance, matplotlib=True, show=False)
