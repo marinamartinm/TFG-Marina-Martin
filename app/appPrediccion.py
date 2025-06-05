@@ -146,7 +146,7 @@ def generar_informe_estetico(datos_usuario, prediccion_clase, probas, clases):
     pdf.section_title("RESULTADOS DE LA PREDICCIÓN")
     pdf.add_prediction(prediccion_clase, probas, clases)
 
-    ruta_pdf = "informe_prediccion_estetico.pdf"
+    ruta_pdf = "informe_prediccion.pdf"
     pdf.output(ruta_pdf)
     return ruta_pdf
 
