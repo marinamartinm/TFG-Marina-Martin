@@ -12,7 +12,7 @@ from fpdf import FPDF
 from datetime import datetime
 from sklearn.preprocessing import StandardScaler
 
-st.set_page_config(page_title="Predicción de Trastornos del Sueño", layout="wide")
+st.set_page_config(page_title="Predicción de Trastornos del Sueño", page_icon="logoApp.png", layout="wide")
 st.markdown("# 💤 Predicción de Trastornos del Sueño")
 
 # 2. CÓDIGO QR
@@ -35,9 +35,9 @@ try:
     model = joblib.load("random_forest_model.joblib")
     scaler = joblib.load("scaler.joblib")
     columnas_entrenamiento = joblib.load("columnas_entrenamiento.joblib")
-    st.success("✅ Modelo y scaler cargados correctamente")
+    st.success("Modelo y scaler cargados correctamente")
 except Exception as e:
-    st.error(f"❌ Error al cargar modelo o scaler: {e}")
+    st.error(f"Error al cargar modelo o scaler: {e}")
     st.stop()
 
 # 4. PDF CLÍNICO
@@ -203,4 +203,4 @@ if enviado:
         st.pyplot(plt.gcf())
 
     except Exception as e:
-        st.error(f"❌ Error: {e}")
+        st.error(f"Error: {e}")
