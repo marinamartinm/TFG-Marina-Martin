@@ -1,0 +1,54 @@
+\capitulo{7}{Líneas de trabajo futuras}
+
+El presente proyecto ha demostrado que es viable aplicar modelos de aprendizaje automático para detectar de forma preliminar posibles trastornos del sueño a partir de datos clínicos y de estilo de vida. A pesar de que los resultados obtenidos no han alcanzado en todos los casos el nivel esperado, se ha logrado sentar una base sólida sobre la que seguir construyendo. 
+
+A continuación, se proponen varias líneas de trabajo que podrían abordarse en el futuro para mejorar y ampliar el proyecto desarrollado:
+
+\section{Incorporación de datos fisiológicos en tiempo real}
+Una de las mejoras con mayor potencial incluye la integración en la propia aplicación sensores biométricos, como es el caso del O2Ring o wearables comerciales (Fitbit, MiBand, Apple Watch). A partir de estos dispositivos se obtendría información como la saturación de oxígeno, frecuencia cardíaca o interrupciones en el sueño, permitiendo construir un modelo más complejo gracias a la integración de datos subjetivos y objetivos.
+
+\section{Ampliación y validación del conjunto de datos}
+Uno de los principales límites del modelo actual es el tamaño y la naturaleza del conjunto de datos utilizado. Aunque ha servido como punto de partida para desarrollar y validar el sistema, sería conveniente rediseñar la arquitectura utilizando tecnologías de backend más escalables y seguras, capaces de soportar una mayor carga de usuarios y garantizar la estabilidad del servicio.
+
+Una posible línea de trabajo sería recopilar nuevos registros provenientes de diferentes contextos clínicos o poblaciones. Esto permitiría no solo aumentar la cantidad de datos disponibles, sino también evaluar la capacidad del modelo para generalizar sus predicciones a distintos perfiles de pacientes.
+
+Además, se podría plantear la creación de una base de datos que integrase tanto información declarativa como variables fisiológicas obtenidas mediante sensores. Esta ampliación del dataset facilitaría entrenar modelos más precisos, así como realizar validaciones cruzadas más exigentes.
+
+Por último, sería conveniente llevar a cabo un proceso de validación externa, en colaboración con profesionales del ámbito clínico, que permita comprobar el rendimiento del sistema fuera del entorno de desarrollo.
+
+ 
+\section{Validación en entornos reales}
+
+Una vez desarrollado y testado en un entorno controlado, el siguiente paso natural sería validar el sistema en contextos clínicos reales, como consultas de atención primaria, unidades del sueño o programas de cribado en salud pública. Este tipo de validación permitiría evaluar no solo la precisión del modelo en la práctica, sino también su utilidad y aceptación por parte de los profesionales sanitarios. 
+
+Además, sería posible recoger feedback directo sobre aspectos como la facilidad de uso de la aplicación, el tiempo necesario para introducir los datos o el grado de confianza que genera el sistema en los usuarios. Esta información resultaría de gran valor para orientar futuras mejoras funcionales y de diseño.
+
+En paralelo, sería interesante analizar el impacto del sistema en el flujo de trabajo habitual, observando si realmente contribuye a una detección más temprana o a una reducción de derivaciones innecesarias, dos de los objetivos principales del proyecto.
+
+ 
+
+\section{Evolución del modelo predictivo}
+El modelo actual se basa en un clasificador de tipo \textit{Random Forest}, por su equilibrio entre rendimiento, interpretabilidad y bajo coste computacional. No obstante, en fases futuras podría explorarse el uso de modelos más complejos y adaptativos que permitan capturar mejor las relaciones no lineales entre variables.
+
+Entre las alternativas más prometedoras se encuentran las redes neuronales profundas, especialmente aquellas adaptadas a datos tabulares, o los modelos ensamblados con técnicas avanzadas de \textit{boosting}. Asimismo, podría incorporarse algún mecanismo de aprendizaje continuo que permita actualizar el modelo con nuevos datos sin necesidad de reentrenarlo por completo.
+
+En todos los casos, sería esencial mantener la transparencia y la interpretabilidad del sistema, para garantizar su uso responsable en entornos clínicos. Por ello, sería recomendable combinar estas técnicas con herramientas de \textit{explainable AI} (XAI) como SHAP o LIME.
+
+ 
+
+
+\section{Desarrollo de una versión escalable de la aplicación}
+
+La versión actual de la aplicación, desarrollada con Streamlit, resulta adecuada para prototipado y validación en fases iniciales. Sin embargo, si se desea avanzar hacia un producto utilizable a mayor escala, sería necesario rediseñar la arquitectura con tecnologías más robustas y escalables. 
+
+Finalmente, para garantizar su integración en entornos sanitarios reales, sería clave adaptar la solución a estándares como HL7 o FHIR y contemplar la posibilidad de exportar los resultados directamente a sistemas de historia clínica electrónica (EHR). 
+
+\section{Aplicaciones en salud pública y educación}
+Más allá de su uso individual, la herramienta desarrollada podría tener un impacto positivo en el ámbito de la salud pública. Por ejemplo, podría utilizarse en campañas de cribado poblacional para detectar factores de riesgo relacionados con el sueño en entornos escolares, laborales o comunitarios.
+
+Del mismo modo, puede resultar útil como recurso educativo en programas de promoción de la salud, ayudando a sensibilizar a la población sobre la importancia de un sueño adecuado y los efectos de los hábitos de vida en su calidad. La generación automática de informes personalizados refuerza la comprensión de los resultados, aumentando su impacto educativo y clínico.
+
+Por último, en un contexto de medicina preventiva, esta herramienta podría integrarse en estrategias más amplias de digitalización y autocuidado, contribuyendo a empoderar al usuario y a descongestionar los sistemas sanitarios.
+
+
+Estas líneas de trabajo futuras no solo ofrecen posibles caminos de mejora técnica, sino que reflejan la evolución natural de un sistema que, con una base sólida, aspira a convertirse en una herramienta útil en la práctica clínica y en la educación sanitaria. La combinación de modelos predictivos, explicabilidad, sensores fisiológicos y despliegue accesible representa una tendencia creciente en salud digital, en la que este proyecto se sitúa como primer paso significativo.

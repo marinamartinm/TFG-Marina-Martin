@@ -1,0 +1,130 @@
+\apendice{Descripción de adquisición y tratamiento de datos}
+
+
+\section{Descripción formal de los datos}
+
+El conjunto de datos empleado en este proyecto fue obtenido de la plataforma pública \textbf{Kaggle} \cite{alnour2024kaggle}, y se titula \textit{Sleep Health and Lifestyle Dataset}. Se trata de un archivo en formato \verb|.csv| que contiene \textbf{374 registros}, cada uno correspondiente a un individuo, con un total de \textbf{13 variables} relacionadas con aspectos clínicos, personales y de estilo de vida. El objetivo de este conjunto es facilitar la predicción de trastornos del sueño, concretamente \textbf{insomnio}, \textbf{apnea del sueño} o \textbf{ninguno}.
+
+\textbf{Características técnicas del archivo:}
+\begin{itemize}
+    \item \textbf{Tipo de archivo}: CSV (texto plano delimitado por comas)
+    \item \textbf{Codificación}: UTF-8
+    \item \textbf{Separador de campos}: \verb|,|
+    \item \textbf{Número de registros}: 374
+    \item \textbf{Número de columnas}: 13
+\end{itemize}
+ 
+\subsection{Estructura detallada de las columnas del dataset:}
+A continuación se describen las 13 variables incluidas en el conjunto de datos, detallando su significado, tipo, rango de valores y relevancia en el contexto del análisis de trastornos del sueño.
+
+\begin{enumerate}
+    \item \textbf{Person ID:} identificador numérico único para cada registro. No tiene valor predictivo, pero se utiliza como referencia interna. Sus valores están comprendidos entre el 1 y el 374.
+    \item \textbf{Gender:} variable categórica binaria que indica el sexo del individuo, con valores ‘Male’ y ‘Female’. La distribución es equilibrada, con un 51\% de hombres y un 49\% de mujeres. 
+    \item \textbf{Age:} variable numérica que recoge la edad en años. Los valores oscilan entre 27 y 59, con una media de 42,18 y una desviación estándar de 8,67.
+    \item \textbf{Occupation:} variable categórica con 11 clases distintas, que incluyen profesiones como ‘Software Engineer’, ‘Doctor’, ‘Teacher’ o ‘Sales Representative’. Se considera una posible fuente de variabilidad en el estilo de vida y nivel de estrés. 
+    \item \textbf{Sleep Duration: }número medio de horas de sueño por noche. Es una variable numérica con valores entre 5,8 y 8,5 horas.
+    \item \textbf{Quality of Sleep:} calidad del sueño percibida en una escala de 1 a 10. En el conjunto de datos, los valores se sitúan entre 4 y 9.
+    \item \textbf{Physical Activity Level: } variable numérica que representa el nivel de actividad física semanal, expresado en una escala de 0 a 100. En el dataset, los valores se encuentran entre 30 y 90. 
+    \item \textbf{Stress Level:} variable numérica que indica el nivel de estrés autopercibido, medido en una escala de 1 a 10. En los registros analizados, los valores varían entre 3 y 8.
+    \item \textbf{BMI Category: } variable categórica que clasifica el índice de masa corporal del individuo. Presenta cuatro categorías: ‘Normal’, ‘Normal Weight’, ‘Overweight’ y ‘Obese’. 
+    \item \textbf{Blood Pressure: }originalmente registrada como una cadena de texto con el formato ‘sistólica/diastólica’ (por ejemplo, ‘120/80’). Esta variable fue posteriormente descompuesta en dos columnas numéricas para análisis individualizado. 
+    \item \textbf{Heart Rate: } frecuencia cardíaca en reposo, medida en pulsaciones por minuto (bpm). Se observan valores entre 65 y 86, con una media de 70,16 y desviación estándar de 4,14. 
+    \item \textbf{Daily Steps: } variable numérica que indica el número promedio de pasos diarios. Los valores oscilan entre 3.000 y 10.000 pasos, con una media de 6.816. 
+    \item \textbf{Sleep Disorder: } variable objetivo del estudio. Presenta tres clases posibles: \texttt{None}, \texttt{Sleep Apnea} e \texttt{Insomnia}. Se trata de una variable categórica multiclase. 
+\end{enumerate}
+
+
+Como resumen gráfico de esta descripción, en las Figuras~\ref{fig:estructura-dataset},~\ref{fig:categoricas-dataset} y~\ref{fig:estadisticas-numericas} se presenta la estructura inicial del dataset. La primera muestra los nombres, tipos de datos y completitud de cada variable; la segunda recoge los valores únicos observados en las variables categóricas; y la tercera resume las estadísticas descriptivas de las variables numéricas.
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{columnas.png}
+\caption{Estructura del dataset original: nombre, tipo de dato y recuento de valores no nulos por columna.}
+\label{fig:estructura-dataset}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{columnasCategoricas.png}
+\caption{Valores que pueden tomar las variables categóricas.}
+\label{fig:categoricas-dataset}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{descripcionNumericas.png}
+\caption{Estadísticas descriptivas de las variables numéricas.}
+\label{fig:estadisticas-numericas}
+\end{figure}
+
+\section{Tratamiento y preprocesamiento de los datos}
+
+Para su uso en el modelo de clasificación multiclase, fue necesario aplicar un proceso riguroso de tratamiento y transformación del conjunto de datos original. Las tareas realizadas se agrupan en las siguientes fases:
+
+\begin{enumerate}
+    \item \textbf{Revisión inicial y limpieza:}
+
+ Se verificó que no existían valores nulos ni campos vacíos en ninguna de las columnas. También se estudió la posible presencia de registros duplicados. El análisis estadístico descriptivo permitió identificar la presencia de valores extremos en algunas variables numéricas, como \verb|Heart Rate|, que fueron conservados tras confirmar su validez  clínica.
+    \item \textbf{Transformaciones estructurales del dataset:}
+    \begin{itemize}
+        \item La columna \verb|Blood Pressure|, originalmente en formato texto con el patrón `sistólica/diastólica', fue dividida en dos nuevas variables numéricas (\verb|Systolic BP| y \verb|Diastolic BP|) mediante una transformación de tipo \verb|split|.
+        \item Las variables categóricas fueron tratadas de forma diferenciada:
+        \begin{itemize}
+            \item Se aplicó \textbf{Label Encoding} en variables binarias como \verb|Gender|.
+            \item Se utilizó \textbf{One-Hot Encoding} para columnas multiclase como \verb|Occupation| y \verb|BMI Category|, eliminando una de las clases por cada variable para evitar redundancia (colinealidad perfecta).
+        \end{itemize}
+        \item Las variables numéricas fueron \textbf{escaladas mediante MinMaxScaler} con el objetivo de normalizar los valores en el rango [0,1], lo que facilita la convergencia de ciertos algoritmos de clasificación y garantiza una homogeneidad en el espacio vectorial.
+    \end{itemize}
+    \item \textbf{Análisis de valores atípicos (outliers):}
+
+ El análisis gráfico mediante boxplots y la aplicación del método de rango intercuartílico (IQR) permitieron identificar valores extremos en algunas variables cuantitativas. No obstante, dado que estos no representaban errores, se decidió conservarlos en el conjunto de datos para preservar la variabilidad natural de la muestra.
+    \item \textbf{Revisión del equilibrio de clases:}
+
+ La variable objetivo \verb|Sleep Disorder| presenta un leve desbalance entre clases, siendo más frecuentes los casos sin trastorno. No se aplicaron técnicas de sobremuestreo ni submuestreo durante esta fase para mantener la distribución original. El balanceo se abordó posteriormente durante el proceso de entrenamiento y validación del modelo mediante técnicas específicas como SMOTE.
+\end{enumerate}
+
+
+\section{Descripción clínica de los datos}
+
+El conjunto de datos empleado simula una recopilación de variables clínicas, demográficas y de estilo de vida habitualmente asociadas a la aparición de trastornos del sueño. Su estructura permite explorar perfiles de riesgo a partir de datos no invasivos y fácilmente recopilables. A continuación, se describen las principales variables de interés desde una perspectiva clínica:
+
+\begin{itemize}
+    \item \textbf{Edad:} el riesgo de apnea del sueño incrementa con la edad. En el conjunto de datos, las personas diagnosticadas con apnea se concentran en los rangos de edad más elevados (mayores de 50 años).
+    \item \textbf{Índice de masa corporal (BMI Category):} las categorías \verb|Overweight| y \verb|Obese| se encuentran sobrerrepresentadas entre los pacientes con apnea del sueño, lo que concuerda con la literatura médica sobre comorbilidades metabólicas.
+Tal como se observa en la Figura~\ref{fig:diagBarras_BMI}, los individuos diagnosticados con apnea presentan una distribución desplazada hacia categorías de mayor índice de masa corporal.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{diagBarras_BMI.png}
+\caption{Distribución de las categorías de IMC en función del tipo de trastorno del sueño.}
+\label{fig:diagBarras_BMI}
+\end{figure}
+
+    \item \textbf{Presión arterial:} valores elevados de presión sistólica y diastólica aparecen más frecuentemente en individuos con apnea, lo que refuerza su asociación con el riesgo cardiovascular.
+    \item \textbf{Frecuencia cardíaca:} valores superiores a la media son más comunes en personas con insomnio, lo que podría indicar una mayor activación simpática o peor calidad de descanso.
+Esta diferencia se refleja de forma clara en la Figura~\ref{fig:heart-rate-disorder}, donde se observa que los individuos con insomnio presentan una distribución más elevada en frecuencia cardíaca en reposo.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{violin_HeartRate.png}
+\caption{Distribución de la frecuencia cardíaca por tipo de trastorno del sueño.}
+\label{fig:heart-rate-disorder}
+\end{figure}
+
+    \item \textbf{Nivel de estrés:} los individuos con diagnóstico de insomnio presentan, en general, valores de estrés autopercibido superiores al resto. Esta relación es clínicamente esperable, dado el vínculo bidireccional entre estrés e insomnio.
+Esta observación se refleja claramente en la Figura~\ref{fig:stress-level-disorder}, donde se visualiza la distribución del nivel de estrés en función del tipo de trastorno del sueño. El grupo con insomnio presenta una concentración notable de valores en el rango superior de la escala (6–8), mientras que los individuos sin trastorno tienden a mostrar niveles más bajos.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{stressLevel.png}
+\caption{Distribución del nivel de estrés según el diagnóstico de trastorno del sueño.}
+\label{fig:stress-level-disorder}
+\end{figure}
+
+    \item \textbf{Duración y calidad del sueño:} ambas variables son autorreportadas. Los valores más bajos aparecen en los grupos con trastornos, especialmente en el caso del insomnio, donde la duración del sueño raramente supera las 6 horas.
+    \item \textbf{Actividad física y pasos diarios:} los individuos sin trastornos suelen mostrar niveles más altos de actividad física semanal y pasos diarios. Estos factores pueden actuar como elementos protectores frente a alteraciones del sueño.
+\end{itemize}
+En conjunto, estas variables permiten construir perfiles clínicos diferenciados entre los tres grupos de diagnóstico, lo que respalda su idoneidad como variables predictoras en sistemas de aprendizaje automático orientados al cribado de trastornos del sueño.
+
+ 

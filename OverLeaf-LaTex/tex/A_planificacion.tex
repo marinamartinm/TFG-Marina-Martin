@@ -1,0 +1,353 @@
+\apendice{Plan de Proyecto Software}
+
+\section{Introducción}
+
+Antes de abordar el desarrollo técnico del sistema, se ha considerado necesario realizar una planificación inicial que contemple tres dimensiones fundamentales: la organización temporal del trabajo, una estimación económica de los recursos invertidos y un análisis de la viabilidad legal del proyecto.
+Este apartado tiene como objetivo reflejar el esfuerzo realizado desde una perspectiva realista, asegurando la coherencia entre las fases de trabajo, la sostenibilidad de su ejecución y el cumplimiento del marco normativo vigente.
+A continuación, se detalla la planificación temporal llevada a cabo durante el TFG, seguida de una estimación económica del proyecto y un análisis de su viabilidad legal.
+
+
+
+\section{Planificación temporal}
+Antes de iniciar cualquier proyecto de ingeniería, y especialmente en el contexto de un Trabajo Fin de Grado, es fundamental contar con una planificación estructurada que permita organizar el tiempo, priorizar tareas y realizar un seguimiento ordenado del avance. Para ello, se ha utilizado la plataforma GitHub, ampliamente reconocida en entornos académicos y profesionales, no solo como sistema de control de versiones, sino también como herramienta de gestión de proyectos.
+
+GitHub permite trabajar de forma colaborativa, registrar cambios, documentar decisiones técnicas y organizar tareas en forma de issues, que a su vez pueden agruparse en milestones (hitos). Gracias a este enfoque, ha sido posible estructurar el desarrollo del TFG en bloques coherentes de trabajo, visualizar el progreso y mantener una trazabilidad completa de cada fase.
+
+A lo largo del desarrollo del proyecto se definieron los siguientes milestones, cada uno de ellos compuesto por una serie de tareas específicas:
+
+\begin{itemize}
+  \item \textbf{M1. Revisión bibliográfica inicial.}
+  En esta primera fase se realizó una búsqueda exhaustiva de literatura científica y técnica para contextualizar el proyecto. Se identificaron fuentes relevantes sobre trastornos del sueño, variables clínicas y métodos de predicción. Esto permitió asentar las bases teóricas del TFG y justificar la necesidad del sistema desarrollado. 
+  Las principales tareas asociadas a este hito fueron:
+  
+  \begin{itemize}
+    \item Búsqueda de información.
+    \item Estado del Arte: revisión bibliográfica.
+  \end{itemize}
+
+  \item \textbf{M2. Investigación y recolección de datos.}
+  Se exploraron diferentes fuentes de datos, incluyendo un dataset estructurado de Kaggle y datos reales obtenidos mediante el dispositivo O2Ring. Se analizaron las variables clínicas más relevantes, se revisaron cuestionarios estandarizados como el test de Pittsburgh y se definieron los criterios de calidad de los registros empleados en la validación. Esta fase fue esencial para garantizar que el modelo predictivo estuviera respaldado por datos representativos y estructurados.
+  Las tareas desarrolladas fueron:
+  
+  \begin{itemize}
+    \item Clasificación de enfermedades relacionadas con el sueño.
+    \item Identificación de métricas clave para el análisis.
+    \item Exploración y limpieza de datos O2Ring.
+    \item Revisión y análisis del test de Pittsburgh.
+    \item Recolección de datos O2Ring para la validación.
+  \end{itemize}
+
+  \item \textbf{M3. Extracción de características y análisis exploratorio.}
+  En este hito se aplicaron técnicas de codificación de variables categóricas, detección de valores atípicos y análisis de correlación entre variables. El objetivo fue transformar el conjunto de datos en una estructura adecuada para el entrenamiento de modelos de machine learning, eliminando redundancias y mejorando la calidad estadística de las variables seleccionadas.
+  Las tareas incluyeron:
+
+  \begin{itemize}
+    \item Extracción de características y codificación de variables categóricas.
+    \item Preprocesamiento y estructuración del dataset.
+    \item Identificación y análisis de outliers.
+    \item Análisis de correlaciones.
+  \end{itemize}
+
+  \item \textbf{M4. Desarrollo y entrenamiento del modelo.}
+  Durante esta fase se evaluaron diferentes algoritmos de clasificación multiclase, como Regresión Logística, Random Forest, SVM o Redes Neuronales, con el objetivo de identificar el más adecuado para predecir trastornos del sueño. Se ajustaron hiperparámetros mediante técnicas como GridSearchCV, se entrenaron los modelos y se aplicó validación cruzada para comprobar su estabilidad. Esta etapa permitió seleccionar un modelo final robusto, calibrado y balanceado, garantizando una base sólida para su futura integración en la aplicación web.
+   Las tareas principales fueron:
+   
+  \begin{itemize}
+    \item Prueba de primeros modelos y ajuste de hiperparámetros.
+    \item Entrenamiento y validación del modelo.
+    \item Validación cruzada.
+  \end{itemize}
+
+  \item \textbf{M5. Implementación de la aplicación web.}
+  Se diseñó una interfaz interactiva con Streamlit para facilitar el uso del modelo por parte de usuarios sin conocimientos técnicos. La app permite introducir datos, obtener predicciones, visualizar probabilidades por clase y generar informes PDF automáticos. También se incorporaron explicaciones mediante SHAP y pruebas funcionales para garantizar la fiabilidad del sistema.  
+  Las actividades realizadas en esta fase fueron:
+  
+  \begin{itemize}
+    \item Diseño del formulario de entrada de datos.
+    \item Integración del modelo predictivo en Streamlit.
+    \item Visualización de resultados e interpretabilidad (SHAP).
+    \item Generación automática del informe PDF.
+    \item Inserción de código QR en la interfaz.
+    \item Pruebas de interfaz y control de errores.
+  \end{itemize}
+
+  \item \textbf{M6. Redacción de la memoria.}
+  A medida que avanzaban las fases técnicas, se fue construyendo la memoria del TFG. Se redactaron todos los capítulos principales del documento, cuidando especialmente la claridad en la exposición de métodos, la justificación técnica y la calidad formal. También se revisó el estilo y se adaptaron las figuras al formato final.  
+  Las tareas asociadas fueron:
+  
+  \begin{itemize}
+    \item Primeras redacciones: introducción y objetivos.
+    \item Redacción del apartado conceptos teóricos.
+    \item Redacción del apartado de metodología.
+    \item Redacción del capítulo de resultados.
+    \item Redacción del capítulo de conclusiones.
+    \item Redacción de líneas de trabajo futuras.
+    \item Revisión ortográfica, técnica y de estilo de todo el documento.
+    \item Adaptación al formato final y preparación para la exportación a PDF.
+    
+  \end{itemize}
+
+  \item \textbf{M7. Redacción de los anexos.}
+  Los anexos complementaron la memoria principal con documentación técnica estructurada del sistema y del proceso seguido. Su elaboración garantizó la trazabilidad y replicabilidad del proyecto, así como su alineación con criterios éticos y sostenibles.  
+  Las tareas realizadas fueron:
+  
+  \begin{itemize}
+    \item Anexo A – Planificación: estructura temporal, económica y legal del proyecto.
+    \item Anexo B – Documentación de usuario: requisitos, puesta en marcha y demostración práctica.
+    \item Anexo C – Manual del desarrollador / programador: estructura del proyecto, ejecución y posibles mejoras.
+    \item Anexo D – Adquisición y tratamiento de datos: descripción formal y clínica del dataset.
+    \item Anexo E – Especificación de diseño: estructura arquitectónica y flujos de funcionamiento.
+    \item Anexo F – Requisitos: diagrama y explicación de casos de uso, prototipos de interfaz.
+    \item Anexo G – Estudio experimental: cuaderno de trabajo, resultados y validación externa.
+    \item Anexo H – Sostenibilización curricular: alineación con los ODS.
+    \item Revisión final de formato, figuras y consistencia técnica entre anexos y memoria principal.
+  \end{itemize}
+\end{itemize}
+
+
+\subsubsection{Etiquetas utilizadas (labels)}
+
+Con el fin de clasificar y priorizar las tareas de manera eficiente, se utilizaron etiquetas dentro del repositorio de GitHub. Estas etiquetas facilitaron la organización del trabajo y permitieron el filtrado por tipo de tarea. Entre ellas se encuentran:
+
+\begin{itemize}
+  \item \texttt{documentation}: creación o mejora de documentación.
+  \item \texttt{writing}: redacción de contenidos de memoria.
+  \item \texttt{analysis}: análisis exploratorio, correlaciones, outliers.
+  \item \texttt{data}: limpieza, transformación y estructuración de datos.
+  \item \texttt{modeling}: tareas de desarrollo y validación del modelo.
+  \item \texttt{urgent}: tareas prioritarias.
+  \item \texttt{bug}: detección de errores durante la implementación.
+  \item \texttt{good first issue}: tareas iniciales adecuadas para comenzar el trabajo.
+  \item \texttt{robustness}: mejoras en el manejo de errores y entradas incompletas.
+  \item \texttt{testing}: pruebas del sistema y procedimientos de validación/verificación.
+  \item \texttt{frontend}: tareas relacionadas con la interfaz de Streamlit e interacciones del usuario.
+  \item \texttt{backend}: tareas relacionadas con el modelo, procesamiento de datos o la funcionalidad interna.
+  \item \texttt{usability}: mejoras en la experiencia del usuario; diseño, navegación y claridad.
+  \item \texttt{enhancement}: tareas para nuevas funciones o solicitudes.
+  \item \texttt{fpdf}: tareas que involucran la generación de PDF (bibliotecas \texttt{fpdf} o \texttt{fpdf2}).
+  \item \texttt{report}: tareas relacionadas con la creación o formateo de informes para su descarga desde la aplicación.
+  \item \texttt{app-development}: tareas relacionadas con la aplicación en Streamlit.
+  \item \texttt{explainability}: tareas relacionadas con la interpretabilidad del modelo y visualización de características.
+  \item \texttt{visualization}: representaciones visuales (gráficos, diagramas SHAP o distribución de variables).
+\end{itemize}
+
+
+\subsubsection{Diagrama de Gantt}
+
+Con el fin de representar visualmente la planificación y ejecución del proyecto, se ha elaborado un diagrama de Gantt, una herramienta común en la gestión de proyectos que permite visualizar las tareas distribuidas en el tiempo, su duración, inicio y fin, así como el posible solapamiento entre fases.
+
+Cada barra horizontal del diagrama corresponde a un bloque de trabajo (\textit{milestone}), mostrando su relación temporal con respecto al conjunto del proyecto. Gracias a esta representación gráfica, es posible detectar los periodos de mayor carga, los cuellos de botella y las dependencias entre tareas.
+
+La Figura~\ref{fig:gantt} muestra el diagrama de Gantt generado a partir de los datos recogidos en GitHub. \url{https://github.com/marinamartinm/TFG-Marina-Martin}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{gantt.png}
+    \caption{Diagrama de Gantt del proyecto.}
+    \label{fig:gantt}
+\end{figure}
+
+
+
+\section{Planificación económica}
+
+A continuación, se presenta una estimación detallada de los costes asociados al desarrollo del Trabajo Fin de Grado (TFG), diferenciando entre costes personales, materiales y de infraestructura. Aunque el proyecto no ha requerido financiación directa, esta evaluación permite reflejar el valor del trabajo realizado y explorar su posible viabilidad económica en contextos reales.
+
+\subsection{Costes personales}
+
+El proyecto ha sido desarrollado por una única estudiante desde octubre hasta junio, con una duración aproximada de \textbf{8 meses}. La dedicación ha abarcado todas las fases: revisión bibliográfica, diseño metodológico, análisis de datos, desarrollo del sistema predictivo, validación, implementación web, documentación y pruebas.
+
+Aunque el número de horas asignado oficialmente al TFG es de 360, se estima una dedicación real aproximada de \textbf{520 horas}.
+
+Para estimar el coste de este trabajo se ha tomado como referencia que un salario bruto mensual de un/a ingeniero/a biomédico/a recién graduado/a en España oscila entre los \textbf{2.250-2.500~€}, según portales de empleo especializados como InfoJobs y Glassdoor \cite{infojobs2025, glassdoor2025}. Además, se han tenido en cuenta los costes sociales que asumiría la empresa al contratar a dicho profesional, estimados en un 31\% del sueldo bruto, correspondientes a la cotización a la Seguridad Social en el Régimen General.
+
+\paragraph{Cálculo del coste por hora:}
+
+\begin{equation}
+\text{Coste por hora} = \frac{\text{Coste mensual total}}{\text{Horas por mes}} = \frac{2250~\text{€} + 698~\text{€}}{160 
+~\text{h}}=\frac{2948~\text{€}}{160~\text{h}} = 18{,}43~\text{€/h}
+\end{equation}
+
+\paragraph{Cálculo del coste total personal:}
+
+\begin{equation}
+\text{Coste total personal} = \text{Coste por hora} \times \text{Horas estimadas} = 18,43~\text{€/h} \times 520~\text{h} = 9583~\text{€}
+\end{equation}
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Concepto} & \textbf{Valor estimado} \\
+\hline
+Sueldo mensual bruto & 2.250~€ \\
+Seguridad Social (31\%) & 698~€ \\
+Coste mensual total & 2.948~€ \\
+Coste por hora (basado en 160 h/mes) & 18,43~€/h \\
+Total de horas estimadas & 520 h \\
+\textbf{Coste total personal} & \textbf{9.583~€} \\
+\hline
+\end{tabular}
+\caption{Estimación de costes personales del proyecto.}
+\end{table}
+
+\subsection{Costes materiales y de infraestructura}
+
+Aunque el desarrollo se ha realizado íntegramente con software libre y en un equipo personal, se consideran los siguientes costes asociados al uso de hardware y recursos complementarios.
+
+\subsubsection{Amortización del ordenador portátil}
+
+\begin{equation}
+    \text { Amortización }=\frac{\text { Precio }}{\text { Vida Útil(Años) }} \times \frac{\text { Meses Usado }}{12}
+\end{equation}
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Concepto} & \textbf{Valor estimado} \\
+\hline
+Precio del equipo (Lenovo ThinkBook 15-IIL) & 839~€ \\
+Vida útil estimada & 5 años \\
+Meses utilizados & 8 meses \\
+\textbf{Amortización calculada} & \textbf{112~€} \\
+\hline
+\end{tabular}
+\caption{Amortización del ordenador}
+\end{table}
+
+\subsubsection{Amortización del dispositivo O2Ring}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Concepto} & \textbf{Valor estimado} \\
+\hline
+Valor aproximado del dispositivo & 150~€ \\
+Vida útil estimada & 4 años \\
+Meses utilizados & 4 meses \\
+\textbf{Amortización calculada} & \textbf{12,50~€} \\
+\hline
+\end{tabular}
+\caption{Amortización del dispositivo O2Ring.}
+\end{table}
+
+\subsubsection{Costes de software}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Recurso} & \textbf{Coste estimado} \\
+\hline
+Python, Jupyter, Streamlit, GitHub, etc. & 0~€ \\
+\hline
+\end{tabular}
+\caption{Software utilizado.}
+\end{table}
+
+\subsubsection{Resumen de costes materiales}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Categoría} & \textbf{Importe} \\
+\hline
+Amortización portátil & 112,00~€ \\
+Amortización dispositivo O2Ring & 12,50~€ \\
+Software y plataformas & 0~€ \\
+\textbf{Total costes materiales} & \textbf{124,50~€} \\
+\hline
+\end{tabular}
+\caption{Resumen de costes materiales.}
+\end{table}
+
+\subsection{Coste total del proyecto}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Categoría} & \textbf{Importe (€)} \\
+\hline
+Costes personales & 9.583,00 \\
+Costes materiales & 124,50 \\
+\textbf{Total estimado} & \textbf{9.707,50} \\
+\hline
+\end{tabular}
+\caption{Coste total del proyecto.}
+\end{table}
+
+
+\section{Viabilidad legal}
+
+La viabilidad legal de este Trabajo Fin de Grado ha sido tenida en cuenta durante todas las fases del desarrollo. Aunque el proyecto no ha requerido acceso a historiales clínicos ni ha sido implementado en un entorno sanitario, sí se han utilizado datos personales reales de forma voluntaria para validar el comportamiento del sistema. Dado que su finalidad está orientada al cribado de trastornos del sueño, se ha prestado especial atención al cumplimiento del marco normativo vigente en materia de protección de datos personales, software, propiedad intelectual y usos futuros.
+
+\subsection{Protección de datos personales}
+
+Durante la fase de validación se utilizaron datos reales de personas voluntarias, introducidos manualmente con el fin de evaluar el comportamiento del sistema frente a perfiles clínicos reales. Aunque no se han recogido historiales médicos ni diagnósticos clínicos formales, algunos de los datos utilizados (como edad, sexo, nivel de estrés, IMC, frecuencia cardíaca o niveles de oxígeno registrados mediante el dispositivo O2Ring) pueden considerarse datos personales protegidos por el Reglamento General de Protección de Datos (RGPD) \cite{rgpd2016} y la Ley Orgánica 3/2018 (LOPDGDD) \cite{lopdgdd2018}.
+
+
+En cumplimiento de los principios de minimización, privacidad por diseño y protección de la identidad, se han tomado las siguientes medidas:
+
+\begin{itemize}
+  \item Los datos se han introducido únicamente para validaciones manuales y nunca han sido compartidos ni procesados en servidores externos.
+  \item El sistema no genera historiales ni conserva registros de las sesiones de predicción.
+  \item La única retención opcional es la descarga local \textbf{opcional} de un informe PDF por parte del propio usuario, sin persistencia digital.
+  \item En este documento, todos los datos presentados han sido completamente anonimizados, eliminando cualquier vínculo identificable con las personas participantes.
+\end{itemize}
+
+Este enfoque garantiza que la privacidad de los participantes ha sido preservada en todo momento. Para una posible evolución futura hacia un uso clínico o multiusuario, se recomienda implementar mecanismos de consentimiento informado, encriptación de datos y control de accesos conforme a la normativa vigente.
+
+\subsection{Licencias de software utilizadas}
+
+El proyecto ha sido desarrollado íntegramente con herramientas y bibliotecas de código abierto. A continuación se muestra un resumen de sus licencias:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Herramienta / Librería} & \textbf{Tipo de licencia} \\
+\hline
+Python & PSF License \\
+Streamlit & Apache License 2.0 \\
+Scikit-learn & BSD License \\
+SHAP, Pandas, NumPy & MIT / BSD License \\
+fpdf2, qrcode & MIT License \\
+\hline
+\end{tabular}
+\caption{Licencias de software utilizadas.}
+\end{table}
+
+Estas licencias permiten libre uso, distribución y modificación, incluso con fines comerciales, siempre que se reconozca la autoría original. Por tanto, el sistema puede ser publicado, compartido o ampliado sin restricciones legales derivadas de las herramientas empleadas.
+
+Para más información sobre las licencias citadas, véanse sus textos oficiales en la \textit{Open Source Initiative}: \url{https://opensource.org/licenses}.
+
+
+\subsection{Propiedad intelectual y licencia del proyecto}
+
+El código fuente, documentación y elementos originales generados durante este TFG están protegidos por la legislación vigente en materia de propiedad intelectual:
+
+\begin{itemize}
+  \item Directiva (UE) 2009/24/CE sobre la protección jurídica de programas de ordenador \cite{directiva2009}.
+  \item Real Decreto Legislativo 1/1996 por el que se aprueba el texto refundido de la Ley de Propiedad Intelectual \cite{lpi1996}.
+\end{itemize}
+
+El software puede ser licenciado bajo una modalidad de código abierto, como la \texttt{MIT License}, lo que permitiría su difusión libre, respetando los derechos morales de autoría. Alternativamente, si se opta por una explotación comercial, podría reservarse la titularidad mediante una licencia más restrictiva.
+
+\subsection{Consideraciones futuras: software médico}
+
+Si la aplicación evolucionase hacia una herramienta con implicaciones diagnósticas en el ámbito clínico, debería evaluarse su clasificación como producto sanitario software, conforme a:
+
+\begin{itemize}
+  \item Reglamento (UE) 2017/745 sobre productos sanitarios \cite{reglamento745}.
+  \item Real Decreto 192/2023, por el que se regulan los productos sanitarios en España \cite{rd192_2023}.
+  \item Requisitos del \textbf{Marcado CE}, supervisados por la Agencia Española de Medicamentos y Productos Sanitarios (AEMPS) \footnote{Más información en: \url{https://www.aemps.gob.es/industria-farmaceutica/productos-sanitarios/marcado-ce/}.
+\end{itemize}
+
+En ese caso, sería necesario garantizar criterios de seguridad, calidad, eficacia y trazabilidad del sistema antes de su comercialización o implementación en consultas médicas.
+
+

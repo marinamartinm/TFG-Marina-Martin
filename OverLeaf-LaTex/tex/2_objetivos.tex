@@ -1,0 +1,36 @@
+\capitulo{2}{Objetivos}
+
+La comprensión de los trastornos del sueño y su diagnóstico precoz constituyen un desafío relevante tanto para la investigación clínica como para la ingeniería aplicada a la salud. La integración de modelos de aprendizaje automático con herramientas digitales interactivas representa una oportunidad para facilitar la detección preliminar de patologías como el insomnio o la apnea del sueño mediante un sistema digital interpretable, accesible y reproducible.
+
+Este trabajo surge con el propósito de combinar el análisis de datos con el desarrollo de una herramienta funcional que pueda ser utilizada por profesionales y usuarios como apoyo en la valoración inicial de problemas relacionados con el sueño.
+
+
+
+\section{Objetivo principal}
+
+Desarrollar un modelo de clasificación multiclase capaz de predecir la presencia de trastornos del sueño, concretamente insomnio, apnea del sueño o ausencia de patología; a partir de variables clínicas, demográficas y de estilo de vida, e integrarlo en una aplicación web interactiva orientada a profesionales y usuarios no técnicos, que facilite su uso e interpretación clínica inicial.
+
+\section{Objetivos específicos}
+\begin{enumerate}
+
+\item  \textbf{Realizar un análisis estadístico del conjunto de datos clínicos y de estilo de vida}, con el fin de identificar posibles relaciones entre las variables clínicas, sociales y conductuales del conjunto de datos, y su influencia en los trastornos del sueño. Esta fase abarca tanto el análisis exploratorio como las etapas de limpieza, codificación, escalado y preparación del dataset para su posterior uso en modelos de aprendizaje automático.
+
+
+\item \textbf{Diseñar y entrenar modelos de aprendizaje automático capaces de clasificar a los individuos} según su probabilidad de padecer insomnio, apnea del sueño o no presentar ningún trastorno, empleando como base las variables clínicas, sociales y conductuales analizadas previamente. Para ello, se evaluarán distintos algoritmos de clasificación, entre los que destacan Random Forest y redes neuronales multicapa (MLP).
+
+\item \textbf{Optimizar, validar y comparar los modelos entrenados,} aplicando validación cruzada y evaluando su rendimiento mediante métricas como precisión, recall, F1-score y matriz de confusión. Se seleccionará el modelo con mejor rendimiento general y mayor capacidad de generalización; y se incorporarán técnicas de interpretabilidad como SHAP para analizar la importancia de las variables predictoras.
+
+\item\textbf{Desarrollar una aplicación web interactiva mediante Streamlit} que permita introducir datos manualmente, realizar la predicción e interpretar los resultados de forma visual e intuitiva, facilitando así su uso por parte de usuarios sin conocimientos técnicos.
+
+\item\textbf{Desplegar y documentar la herramienta}, incluyendo su publicación en la nube y la generación de un código QR que facilite el acceso desde dispositivos móviles, así como su demostración durante la exposición del trabajo.
+\end{enumerate}
+
+
+\section{Objetivos personales}
+
+\begin{enumerate}
+    \item Explorar el potencial del aprendizaje automático como herramienta de apoyo al diagnóstico temprano de enfermedades, contribuyendo al desarrollo de soluciones accesibles y escalables para fases iniciales de cribado en salud.
+    \item Adquirir experiencia en el desarrollo de aplicaciones interactivas mediante el uso de tecnologías como Streamlit, GitHub o LaTeX, integrando competencias en programación, visualización de resultados y documentación técnica.
+    \item Aplicar una perspectiva ingenieril a un problema clínico real, desarrollando una herramienta funcional que pueda escalarse o integrarse en sistemas clínicos más complejos en un futuro.
+    \item Fomentar la autonomía y la capacidad de gestión de proyectos, planificando y ejecutando todas las fases de un sistema predictivo completo: desde el análisis de datos hasta su implementación y presentación final.
+\end{enumerate}

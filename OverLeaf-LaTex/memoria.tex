@@ -1,0 +1,324 @@
+\documentclass[a4paper,12pt,twoside]{memoir}
+
+% Castellano
+\usepackage[spanish,es-tabla]{babel}
+\selectlanguage{spanish}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern} % Scalable font
+\usepackage{microtype}
+\usepackage{placeins}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage[justification=centering]{caption}
+
+
+
+\RequirePackage{booktabs}
+\RequirePackage[table]{xcolor}
+\RequirePackage{xtab}
+\RequirePackage{multirow}
+
+% Links
+\PassOptionsToPackage{hyphens}{url}\usepackage[colorlinks]{hyperref}
+\hypersetup{
+	allcolors = {red}
+}
+
+% Ecuaciones
+\usepackage{amsmath}
+
+% Rutas de fichero / paquete
+\newcommand{\ruta}[1]{{\sffamily #1}}
+
+% Párrafos
+\nonzeroparskip
+
+% Huérfanas y viudas
+\widowpenalty100000
+\clubpenalty100000
+
+\let\tmp\oddsidemargin
+\let\oddsidemargin\evensidemargin
+\let\evensidemargin\tmp
+\reversemarginpar
+
+% Imágenes
+
+% Comando para insertar una imagen en un lugar concreto.
+% Los parámetros son:
+% 1 --> Ruta absoluta/relativa de la figura
+% 2 --> Texto a pie de figura
+% 3 --> Tamaño en tanto por uno relativo al ancho de página
+\usepackage{graphicx}
+
+\newcommand{\imagen}[3]{
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=#3\textwidth]{#1}
+		\caption{#2}\label{fig:#1}
+	\end{figure}
+	\FloatBarrier
+}
+
+
+
+
+
+
+
+\graphicspath{ {./img/} }
+
+% Capítulos
+\chapterstyle{bianchi}
+\newcommand{\capitulo}[2]{
+	\setcounter{chapter}{#1}
+	\setcounter{section}{0}
+	\setcounter{figure}{0}
+	\setcounter{table}{0}
+	\chapter*{#2}
+	\addcontentsline{toc}{chapter}{#2}
+	\markboth{#2}{#2}
+}
+
+% Apéndices
+\renewcommand{\appendixname}{Apéndice}
+\renewcommand*\cftappendixname{\appendixname}
+
+\newcommand{\apendice}[1]{
+	%\renewcommand{\thechapter}{A}
+	\chapter{#1}
+}
+
+\renewcommand*\cftappendixname{\appendixname\ }
+
+% Formato de portada
+
+\makeatletter
+\usepackage{xcolor}
+\newcommand{\tutor}[1]{\def\@tutor{#1}}
+\newcommand{\tutorb}[1]{\def\@tutorb{#1}}
+
+\newcommand{\course}[1]{\def\@course{#1}}
+\definecolor{cpardoBox}{HTML}{E6E6FF}
+\def\maketitle{
+  \null
+  \thispagestyle{empty}
+  % Cabecera ----------------
+\begin{center}
+  \noindent\includegraphics[width=\textwidth]{cabeceraSalud}\vspace{1.5cm}%
+\end{center}
+  
+  % Título proyecto y escudo salud ----------------
+  \begin{center}
+    \begin{minipage}[c][1.5cm][c]{.20\textwidth}
+        \includegraphics[width=\textwidth]{escudoSalud.pdf}
+    \end{minipage}
+  \end{center}
+  
+  \begin{center}
+    \colorbox{cpardoBox}{%
+        \begin{minipage}{.8\textwidth}
+          \vspace{.5cm}\Large
+          \begin{center}
+          \textbf{TFG del Grado en Ingeniería de la Salud}\vspace{.6cm}\\
+          \textbf{\LARGE\@title{}}
+          \end{center}
+          \vspace{.2cm}
+        \end{minipage}
+    }%
+  \end{center}
+  
+    % Datos de alumno, curso y tutores ------------------
+  \begin{center}%
+  {%
+    \noindent\LARGE
+    Presentado por \@author{}\\ 
+    en Universidad de Burgos\\
+    \vspace{0.5cm}
+    \noindent\Large
+    \@date{}\\
+    \vspace{0.5cm}
+    %Tutor: \@tutor{}\\ % comenta el que no corresponda
+    Tutores: \@tutor{} -- \@tutorb{}\\
+  }%
+  \end{center}%
+  \null
+  \cleardoublepage
+  }
+\makeatother
+
+\newcommand{\nombre}{Marina Martín Marijuán}
+\newcommand{\nombreTutor}{Telmo Miguel Medina} 
+\newcommand{\nombreTutorb}{Tutor 2} 
+\newcommand{\dni}{13172541G} 
+
+% Datos de portada
+\title{Aplicación web para la predicción de trastornos del sueño con apoyo del dispositivo O2Ring}
+\author{\nombre}
+\tutor{\nombreTutor}
+\tutorb{\nombreTutorb}
+\date{\today}
+
+
+\begin{document}
+
+\maketitle
+
+
+\newpage\null\thispagestyle{empty}\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\thispagestyle{empty}
+
+
+\noindent\includegraphics[width=\textwidth]{cabeceraSalud}\vspace{1cm}
+
+\noindent D. \nombreTutor, profesor del departamento de departamento, área de área.
+
+\noindent Expone:
+
+\noindent Que el alumno D. \nombre, con DNI \dni, ha realizado el Trabajo final de Grado en Ingeniería de la Salud titulado título del trabajo. 
+
+\noindent Y que dicho trabajo ha sido realizado por el alumno bajo la dirección del que suscribe, en virtud de lo cual se autoriza su presentación y defensa.
+
+\begin{center} %\large
+En Burgos, {\large \today}
+\end{center}
+
+\vfill\vfill\vfill
+
+% Author and supervisor
+\begin{minipage}{0.45\textwidth}
+\begin{flushleft} %\large
+Vº. Bº. del Tutor:\\[2cm]
+D. \nombreTutor
+\end{flushleft}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\textwidth}
+\begin{flushleft} %\large
+Vº. Bº. del Tutor:\\[2cm]
+D. \nombreTutorb
+\end{flushleft}
+\end{minipage}
+\hfill
+
+\vfill
+
+% para casos con solo un tutor comentar lo anterior
+% y descomentar lo siguiente
+%Vº. Bº. del Tutor:\\[2cm]
+%D. nombre tutor
+
+
+\newpage\null\thispagestyle{empty}\newpage
+
+
+
+
+\frontmatter
+
+% Abstract en castellano
+\renewcommand*\abstractname{Resumen}
+\begin{abstract}
+La calidad del sueño ha cobrado una gran relevancia en los últimos años debido a su impacto directo en la salud física y mental. Trastornos como el insomnio o la apnea del sueño afectan significativamente la calidad de vida y su detección precoz continúa siendo un desafío, especialmente fuera del entorno clínico.
+
+Este Trabajo de Fin de Grado presenta el desarrollo de un sistema de predicción basado en técnicas de aprendizaje automático, capaz de estimar la probabilidad de pertenencia a una de tres clases: insomnio, apnea del sueño o ausencia de trastorno. Para ello, se ha empleado un conjunto de datos abierto con información clínica, demográfica y de estilo de vida, sobre el cual se ha aplicado un proceso completo de análisis exploratorio, preprocesamiento, balanceo con SMOTE y calibración probabilística.
+
+El modelo seleccionado, un Random Forest calibrado, ha sido integrado en una aplicación web desarrollada con Streamlit, que permite al usuario introducir sus datos, obtener una predicción multiclase en tiempo real y consultar una explicación visual de los factores que han influido en el resultado mediante gráficos SHAP. Además, la herramienta genera un informe en PDF personalizado y permite el acceso desde dispositivos móviles mediante código QR.
+
+El sistema se plantea como una herramienta accesible, interpretable y de bajo coste computacional, útil como cribado inicial en contextos clínicos, educativos o de salud pública.
+
+
+\end{abstract}
+
+\renewcommand*\abstractname{Descriptores}
+\begin{abstract}
+Trastornos del sueño, insomnio, apnea del sueño, aprendizaje automático, modelo predictivo, aplicación web \ldots
+\end{abstract}
+
+\clearpage
+
+% Abstract en inglés
+\renewcommand*\abstractname{Abstract}
+\begin{abstract}
+Sleep quality has gained increasing relevance in recent years due to its direct impact on physical and mental health. Disorders such as insomnia or sleep apnea significantly reduce quality of life, and their early detection remains a challenge, especially outside clinical environments.
+
+This Final Degree Project presents the development of a prediction system based on machine learning techniques, capable of estimating the likelihood of belonging to one of three classes: insomnia, sleep apnea, or no disorder. An open dataset containing clinical, demographic, and lifestyle information was used, and a complete process of exploratory analysis, data preprocessing, class balancing using SMOTE, and probabilistic calibration was applied.
+
+The final model, a calibrated Random Forest, was integrated into an interactive web application developed with Streamlit. This platform allows users to input personal data, obtain a real-time multiclass prediction, and access a visual explanation of the factors influencing the result using SHAP plots. Additionally, the tool generates a personalized PDF report and supports access from mobile devices via QR code.
+
+The system is proposed as an accessible, interpretable, and low-cost screening tool, potentially useful in clinical, educational, or public health contexts.
+
+\end{abstract}
+
+\renewcommand*\abstractname{Keywords}
+\begin{abstract}
+Sleep disorders, insomnia, sleep apnea, machine learning, predictive model, web application.
+\end{abstract}
+
+\clearpage
+
+% Indices
+\tableofcontents
+
+\clearpage
+
+\listoffigures
+
+\clearpage
+
+\listoftables
+\clearpage
+
+\chapter{Lista de abreviaturas}
+
+\begin{longtable}{ll}
+\textbf{Abreviatura} & \textbf{Significado} \\
+\hline
+NREM  & No Rapid Eye Movement \\
+REM   & Rapid Eye Movement \\
+AASM  & American Academy of Sleep Medicine \\
+AOS   & Apnea Obstructiva del Sueño \\
+ACS   & Apnea Central del Sueño \\
+CPAP  & Continuous Positive Airway Pressure \\
+SPI   & Síndrome de Piernas Inquietas \\
+IMC   & Índice de Masa Corporal \\
+OMS   & Organización Mundial de la Salud \\
+FC    & Frecuencia Cardíaca \\
+SpO\textsubscript{2} & Saturación de Oxígeno en Sangre \\
+PPG   & Fotopletismografía \\
+PSG   & Polisomnografía \\
+EEG   & Electroencefalograma \\
+EOG   & Electrooculograma \\
+EMG   & Electromiograma \\
+PR    & Poligrafía Respiratoria \\
+HRV   & Heart Rate Variability \\
+ODI   & Oxygen Desaturation Index \\
+PSQI  & Pittsburgh Sleep Quality Index \\
+ISI   & Insomnia Severity Index \\
+ESS   & Epworth Sleepiness Scale \\
+MSLT  & Multiple Sleep Latency Test \\
+SSS   & Stanford Sleepiness Scale \\
+ML    & Machine Learning \\
+MLP   & Multilayer Perceptron \\
+\end{longtable}
+
+
+
+\mainmatter
+\include{./tex/1_introduccion}
+\include{./tex/2_objetivos}
+\include{./tex/3_teoricos}
+\include{./tex/4_metodologia}
+\include{./tex/5_resultados}
+\include{./tex/6_conclusiones}
+\include{./tex/7_lineas_futuras}
+
+
+\bibliographystyle{apalike}
+\bibliography{bibliografia}
+
+\end{document}

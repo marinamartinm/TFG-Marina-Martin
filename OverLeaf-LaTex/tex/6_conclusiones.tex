@@ -1,0 +1,32 @@
+ \capitulo{6}{Conclusiones}
+
+A lo largo del desarrollo de este Trabajo Fin de Grado se ha conseguido construir un sistema predictivo capaz de estimar la probabilidad de que un paciente presente insomnio, apnea del sueño o no presente trastornos, a partir de variables clínicas, demográficas y de estilo de vida. El proyecto ha integrado herramientas de ciencia de datos con ingeniería de software, ofreciendo una solución funcional, explicable e interactiva, orientada tanto a profesionales como a usuarios no expertos.
+
+Desde el punto de vista técnico, se han cumplido los principales objetivos planteados. Se ha realizado un análisis exploratorio riguroso del conjunto de datos, un preprocesamiento exhaustivo de sus variables y el desarrollo comparativo de cinco modelos de clasificación multiclase. Finalmente, se seleccionó un modelo \textbf{Random Forest calibrado y balanceado}, que ofreció un rendimiento robusto y explicable mediante técnicas SHAP. Este modelo fue integrado con éxito en una aplicación web desarrollada con Streamlit, accesible desde dispositivos móviles y capaz de generar informes clínicos en PDF de forma automatizada.
+
+El sistema desarrollado tiene potencial como herramienta de \textbf{cribado inicial o sensibilización}, facilitando una evaluación rápida del riesgo de trastornos del sueño en poblaciones no diagnosticadas. Además, sienta las bases para futuras versiones más avanzadas, con integración de sensores biométricos o seguimiento longitudinal.
+
+\section{Aspectos relevantes}
+
+Durante el desarrollo del proyecto se tomaron decisiones clave que influyeron directamente en la calidad final del sistema. Aunque inicialmente se valoró utilizar datos fisiológicos reales mediante el dispositivo O2Ring, se optó por trabajar con un conjunto de datos clínico estructurado y de libre acceso, lo que permitió focalizar los esfuerzos en el diseño, validación y despliegue del modelo.
+
+Uno de los mayores retos fue lidiar con el desequilibrio entre clases, ya que la clase mayoritaria ("None") concentraba más del 50\% de los registros del dataset. Este desbalance podía inducir al modelo a predecir sistemáticamente la clase más frecuente, penalizando la detección de trastornos como el insomnio o la apnea. En una primera fase se exploró la técnica SMOTE (Synthetic Minority Oversampling Technique), generando ejemplos sintéticos para las clases minoritarias. Aunque esta técnica mejoró el \textit{recall} en algunos modelos, también introdujo ruido y sobreajuste en otros, especialmente en Random Forest, reduciendo su capacidad de generalización.
+
+Ante esta situación, se decidió finalmente descartar SMOTE y optar por una combinación de estrategias más conservadoras y robustas. En primer lugar, se aplicó el parámetro \texttt{class\_weight='balanced'} en los clasificadores que lo permitían, ajustando automáticamente el peso de cada clase en función de su frecuencia. En segundo lugar, se incorporó una calibración de probabilidades mediante \texttt{CalibratedClassifierCV}, lo que permitió mejorar la fiabilidad de las predicciones sin alterar el modelo base. Esta aproximación mantuvo un buen equilibrio entre precisión y sensibilidad en todas las clases, evitando los efectos adversos observados con el sobremuestreo artificial.
+
+El camino seguido pone de manifiesto la importancia de evaluar críticamente cada técnica y no asumir que soluciones comunes (como SMOTE) funcionarán en todos los casos. Esta toma de decisiones iterativa y fundamentada fue clave para obtener un sistema final equilibrado, explicable y robusto frente a datos clínicamente relevantes.
+
+
+Aunque en la fase de entrenamiento algunos modelos mostraban métricas prometedoras, los resultados finales sobre los datos de test revelaron un rendimiento más modesto de lo esperado, especialmente en ciertas clases clínicas. Este hecho pone de manifiesto la importancia de contar con datos de mayor calidad y diversidad para asegurar una generalización adecuada del modelo. Variables como el estrés, el sueño o la calidad de vida son altamente subjetivas y difíciles de medir con precisión, lo que afecta directamente a la capacidad predictiva del sistema.
+
+
+La introducción de técnicas de explicabilidad como SHAP ha sido especialmente valiosa, ya que permite interpretar las decisiones del modelo en términos clínicos comprensibles. Esta característica añade transparencia al sistema y facilita su aceptación tanto por parte de usuarios como de profesionales sanitarios.
+
+
+Desde el punto de vista del desarrollo software, se han integrado múltiples funcionalidades en la app, incluyendo: formulario dinámico, predicción en tiempo real, explicación visual de los resultados, generación de informes en PDF, y acceso móvil mediante QR. Cada uno de estos componentes ha sido documentado e implementado con atención al detalle, facilitando su posible ampliación o mantenimiento futuro.
+
+Durante la fase inicial del desarrollo de la interfaz se consideró también el uso de \textit{Shiny}, una plataforma popular para construir dashboards en el entorno R. Sin embargo, esta opción fue descartada por la falta de integración directa con el ecosistema Python, sobre el que se había implementado todo el pipeline de datos, el entrenamiento de modelos y la lógica de predicción. En su lugar, se optó por utilizar \textbf{Streamlit}, un framework ligero, interactivo y orientado a ciencia de datos que permitió desarrollar rápidamente una interfaz funcional sin necesidad de conocimientos en desarrollo web tradicional. Esta decisión no solo facilitó el despliegue en la nube y la generación de informes PDF personalizados, sino que también permitió mantener una coherencia tecnológica a lo largo de todo el proyecto.
+
+En conjunto, este proyecto ha permitido aplicar de forma integrada conocimientos de machine learning, ingeniería biomédica y desarrollo web. A nivel formativo, ha consolidado competencias técnicas y metodológicas en un contexto realista y multidisciplinar, orientado a resolver un problema de salud pública con potencial impacto.
+
+En definitiva, el sistema desarrollado no constituye un producto clínico validado, pero representa un \textbf{primer paso sólido} hacia herramientas accesibles, interpretables y escalables en salud digital. La metodología seguida y los resultados obtenidos abren nuevas oportunidades para mejorar el cribado precoz, la educación sanitaria y el diseño de sistemas inteligentes centrados en el usuario.
