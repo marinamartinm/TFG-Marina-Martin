@@ -19,13 +19,18 @@ El objetivo es ofrecer una herramienta accesible, explicable y fácilmente despl
 - Adquisición de datos - **O2 Insight Pro** (software propietario del dispositivo O₂Ring, Viatom).
 
 ## Estructura del Repositorio
-- Carpeta app: contiene el código de la aplicación en Streamlit.
-- Carpeta artículos:
+- Carpeta app: contiene el código de la aplicación en Streamlit y los archivos necesarios.
+- Carpeta artículos: recopila los artículos científicos más relevantes utilizados durante el desarrollo del trabajo.
 - Carpeta datos: carpeta que recoge todos los datos utilizados para la realización del TFG.
    - O2Ring: datos crudos del dispositivo O2Ring.
-- Carpeta notebooks:
-- Carpeta OverLeaf-LaTex: contiene los documentos y memoria en LaTex.
+- Carpeta diagramas: contiene los diagramas de clases, casos de uso y estructuras incluidas en la documentación.
+- Carpeta imágenes: carpeta con todos los recursos gráficos utilizados en la memoria y anexos.
+- Carpeta memoria: carpeta que contiene la versión final de la memoria y los anexos en formato PDF.
+- Carpeta notebooks: cuadernos Jupyter utilizados durante la fase de análisis exploratorio, entrenamiento del modelo, evaluación y visualización de resultados.
+- Carpeta OverLeaf-LaTex: contiene la documentación de la memoria y anexos compatible con Overleaf (proyecto completo).
 - README.md: archivo de presentación del repositorio de GitHub y explicación del proyecto.
+- requirements.txt: listado de librerías necesarias para la ejecución de la aplicación localmente.
+- runtime.txt: archivo auxiliar usado para indicar la versión de Python en entornos de despliegue.
 
 ## Acceso a la aplicación web
 
