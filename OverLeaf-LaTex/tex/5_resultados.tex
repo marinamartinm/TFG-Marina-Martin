@@ -434,7 +434,7 @@ Los resultados de esta validación externa revelan limitaciones importantes del 
 
 Estos errores confirman que el modelo, entrenado exclusivamente con variables demográficas y de estilo de vida, carece de sensibilidad suficiente para distinguir correctamente entre insomnio, sujetos sanos y apnea real. La ausencia de variables biométricas clave como SpO$_2$ nocturna, ODI o eventos respiratorios limita la capacidad clínica del sistema para ofrecer diagnósticos fiables.
 
-Este análisis pone de manifiesto la necesidad urgente de incorporar señales fisiológicas reales en futuras versiones del modelo, así como de realizar entrenamientos con conjuntos de datos validados clínicamente. Solo así será posible desarrollar sistemas de ayuda al diagnóstico que sean realmente útiles y seguros en entornos reales.
+Este análisis pone de manifiesto la necesidad de incorporar señales fisiológicas reales en futuras versiones del modelo, así como de realizar entrenamientos con conjuntos de datos validados clínicamente. Solo así será posible desarrollar sistemas de ayuda al diagnóstico que sean realmente útiles y seguros en entornos reales.
 
 \section{Discusión}
 
@@ -462,7 +462,7 @@ Las principales limitaciones que condicionan el rendimiento clínico del sistema
 
 \begin{itemize}
     \item \textbf{Tamaño reducido del dataset}: solo 374 registros, lo que limita la generalización del modelo a poblaciones reales más diversas.
-    \item \textbf{Datos autodeclarados}: variables como la calidad del sueño, el nivel de estrés o la duración del sueño están basadas en percepciones subjetivas del paciente, introduciendoo sesgos de respuesta.
+    \item \textbf{Datos autodeclarados}: variables como la calidad del sueño, el nivel de estrés o la duración del sueño están basadas en percepciones subjetivas del paciente, introduciendo sesgos de respuesta.
     \item \textbf{Desequilibrio de clases}: la clase \texttt{None} representa más del 50\% del total, lo que afecta a la estabilidad del aprendizaje y puede favorecer predicciones triviales.
     \item \textbf{Ausencia de datos fisiológicos reales}: el modelo no conoce variables clave como SpO$_2$, ODI, eventos respiratorios o movimiento nocturno, lo que limita su valor clínico.
 \end{itemize}

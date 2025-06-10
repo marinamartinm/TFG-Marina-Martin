@@ -14,7 +14,7 @@ A continuación, se describen en detalle las etapas de análisis, entrenamiento 
 
 
 \subsection{Descripción de los datos}
-El modelo predictivo desarrollado en este proyecto se ha basado en un conjunto de datos de acceso público, descargado de la plataforma \textbf{\href{https://www.kaggle.com/}{Kaggle}},  especializada en ciencia de datos y aprendizaje automático. El dataset seleccionado, titulado Sleep Health and Lifestyle Dataset\footnote{Dataset seleccionado: \cite{alnour2024kaggle}}, proporciona información sociodemográfica, clínica y de hábitos de vida de un total de 374 individuos.
+El modelo predictivo desarrollado en este proyecto se ha basado en un conjunto de datos de acceso público, descargado de la plataforma \textbf{\href{https://www.kaggle.com/}{Kaggle}},  especializada en ciencia de datos y aprendizaje automático. El dataset seleccionado, titulado Sleep Health and Lifestyle Dataset\footnote{Dataset seleccionado: \cite{alnour2024kaggle}.}, proporciona información sociodemográfica, clínica y de hábitos de vida de un total de 374 individuos.
 
 Este conjunto de datos tiene como finalidad facilitar el estudio computacional de los principales trastornos del sueño mediante el análisis conjunto de factores personales, fisiológicos y conductuales, ofreciendo así una perspectiva multidimensional alineada con enfoques clínicos actuales.
 
@@ -31,7 +31,7 @@ Las variables incluidas en el conjunto de datos se pueden agrupar de la siguient
 \begin{itemize}
     \item \textit{Blood Pressure}: presión arterial registrada en formato sistólica/diastólica, medida en mmHg ("120/80").
     \item  \textit{Heart Rate}: frecuencia cardíaca en reposo, representada en latidos por minuto.
-    \item  \textit{BMI Category}: clasificación del índice de masa corporal (Underweight, Normal, Overweight, Obese)
+    \item  \textit{BMI Category}: clasificación del índice de masa corporal (Underweight, Normal, Overweight, Obese).
 \end{itemize}
 
   \item \textbf{Variables conductuales y de estilo de vida:}
@@ -121,7 +121,7 @@ El análisis exploratorio de datos (EDA, por sus siglas en inglés) constituye u
 
 \subsubsection{Distribución de variables numéricas}
 
-Para cada variable continua se generaron cuatro representaciones gráficas: \textbf{boxplot}, \textbf{violin plot}, \textbf{KDE plot} y \textbf{histograma}, con el objetivo de examinar su distribución, simetría y posibles valores atípicos desde distintos enfoques. A continuación, se muestran algunos ejemplos representativos.
+Para cada variable continua se generaron cuatro representaciones gráficas: \textbf{boxplot}, \textbf{violin plot}, \textbf{KDE plot} y \textbf{histograma}, con el objetivo de examinar su distribución, simetría y posibles valores atípicos desde distintos enfoques. A continuación, se muestran algunos ejemplos representativos:
 
 \begin{figure}[H]
     \centering
@@ -439,10 +439,10 @@ El análisis de interpretabilidad se integró como parte del sistema para reforz
 Se generó un \textit{summary plot} (gráfico resumen) utilizando SHAP (\textit{SHapley Additive exPlanations}) para identificar las variables con mayor influencia en el conjunto de predicciones. Las características más relevantes fueron:
 
 \begin{itemize}
-    \item Presión arterial sistólica y diastólica
-    \item Índice de masa corporal (BMI)
-    \item Frecuencia cardíaca
-    \item Duración del sueño
+    \item Presión arterial sistólica y diastólica.
+    \item Índice de masa corporal (BMI).
+    \item Frecuencia cardíaca.
+    \item Duración del sueño.
 \end{itemize}
 
 Las variables identificadas como más relevantes por SHAP coinciden con factores de riesgo ampliamente documentados en la literatura clínica, lo que refuerza la coherencia del modelo y su aceptación clínica.
@@ -450,7 +450,7 @@ Las variables identificadas como más relevantes por SHAP coinciden con factores
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\linewidth]{img/SHAP.png}
-    \caption{Gráfico resumen de SHAP: importancia media de cada variable}
+    \caption{Gráfico resumen de SHAP: importancia media de cada variable.}
     \label{fig:shap_summary}
 \end{figure}
 
@@ -460,7 +460,7 @@ Para facilitar la interpretación de predicciones individuales, se utilizaron \t
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{img/explicacIndividual.png}
-    \caption{Ejemplo de force plot para un individuo concreto}
+    \caption{Ejemplo de force plot para un individuo concreto.}
     \label{fig:shap_force}
 \end{figure}
 
@@ -520,18 +520,19 @@ Adicionalmente, se contrastaron algunos perfiles simulados con informes reales o
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\linewidth]{img/shapApp.png}
-    \caption{Explicación SHAP global en la interfaz.}
+    \includegraphics[width=1\linewidth]{img/explic_individual.png}
+    \caption{Explicación SHAP individual.}
     \label{fig:shap}
 \end{figure}
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{img/explic_individual.png}
-    \caption{Explicación SHAP individual.}
+    \includegraphics[width=0.75\linewidth]{img/shapApp.png}
+    \caption{Explicación SHAP global en la interfaz.}
     \label{fig:shap}
 \end{figure}
+
 
 
 \section{Diseño de perfiles clínicos y validación externa}
@@ -596,7 +597,7 @@ Jupyter Notebook es una aplicación web de código abierto que permite crear y c
 
 Aunque admite múltiples lenguajes de programación mediante el uso de kernels, su integración con Python es la más extendida. Una de sus principales ventajas es la posibilidad de estructurar el trabajo en celdas independientes, lo que permite ejecutar fragmentos de código por separado, visualizar resultados en tiempo real e ir documentando el proceso paso a paso. Esto facilita la validación iterativa, el análisis exploratorio de datos y la depuración eficiente del flujo de trabajo.
 
-En el presente proyecto, Jupyter Notebook se utilizó durante las fases de exploración, preprocesamiento, entrenamiento del modelo y visualización de resultados. Su entorno interactivo ha permitido documentar el desarrollo de forma ordenada, facilitando tanto el análisis como la futura reproducibilidad del sistema construido. \cite{jupyter2024}
+En el presente proyecto, Jupyter Notebook se utilizó durante las fases de exploración, preprocesamiento, entrenamiento del modelo y visualización de resultados. Su entorno interactivo ha permitido documentar el desarrollo de forma ordenada, facilitando tanto el análisis como la futura reproducibilidad del sistema construido \cite{jupyter2024}.
 
 
 \subsection{Anaconda Navigator}
@@ -605,7 +606,7 @@ Anaconda es una distribución de código abierto ampliamente utilizada en entorn
 
 Dentro de esta distribución, \textbf{Anaconda Navigator} actúa como una interfaz gráfica que permite gestionar entornos, lanzar herramientas como Jupyter Notebook, Spyder o VSCode, e instalar nuevas bibliotecas sin necesidad de comandos en terminal. Esta facilidad de uso lo convierte en una herramienta ideal para proyectos multidisciplinares, especialmente en contextos como la ingeniería de la salud, donde se busca acelerar el desarrollo y garantizar la reproducibilidad.
 
-En este proyecto se utilizó Anaconda para gestionar el entorno de trabajo, instalar todas las dependencias necesarias y organizar los paquetes empleados en las fases de análisis, modelado e implementación de la aplicación. \cite{anaconda2024}
+En este proyecto se utilizó Anaconda para gestionar el entorno de trabajo, instalar todas las dependencias necesarias y organizar los paquetes empleados en las fases de análisis, modelado e implementación de la aplicación \cite{anaconda2024}.
 
 
 \subsection{Pandas y Numpy}
@@ -636,7 +637,7 @@ Streamlit es un framework de código abierto diseñado para crear aplicaciones w
 
 Entre sus principales ventajas se encuentran la facilidad de uso, su compatibilidad con bibliotecas populares como \texttt{Pandas}, \texttt{scikit-learn} y \texttt{matplotlib}, y la capacidad de actualizar resultados en tiempo real conforme el usuario introduce nuevos datos.
 
-En este proyecto, Streamlit se empleó para construir una aplicación web interactiva que permite al usuario introducir datos clínicos y de estilo de vida, generar una predicción automática sobre el trastorno del sueño más probable, y visualizar una explicación personalizada del resultado mediante gráficos de SHAP. La herramienta fue desplegada en la nube mediante \textit{Streamlit Community Cloud}, garantizando su accesibilidad desde cualquier navegador sin necesidad de instalación. \cite{streamlit}
+En este proyecto, Streamlit se empleó para construir una aplicación web interactiva que permite al usuario introducir datos clínicos y de estilo de vida, generar una predicción automática sobre el trastorno del sueño más probable, y visualizar una explicación personalizada del resultado mediante gráficos de SHAP. La herramienta fue desplegada en la nube mediante \textit{Streamlit Community Cloud}, garantizando su accesibilidad desde cualquier navegador sin necesidad de instalación \cite{streamlit}.
 
 
 \subsection{FPDF}
